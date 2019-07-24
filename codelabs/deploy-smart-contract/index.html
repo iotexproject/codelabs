@@ -1,95 +1,110 @@
-
 <!doctype html>
 
 <html>
+
 <head>
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <meta name="theme-color" content="#4F7DC9">
   <meta charset="UTF-8">
   <title>Deploying a simple smart contract</title>
-  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet"
+    href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
   <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <link rel="stylesheet" href="../style/codelab-elements.css">
   <style>
     .success {
       color: #1e8e3e;
     }
+
     .error {
       color: red;
     }
   </style>
 </head>
+
 <body>
   <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
-  <google-codelab codelab-gaid=""
-                  id="deploy-smart-contract"
-                  title="Deploying a simple smart contract"
-                  environment="web"
-                  feedback-link="https://github.com/iotexproject/codelabs/issues">
-    
-      <google-codelab-step label="Overview" duration="0">
-        <p><strong>Last Updated:</strong> 2019-07-23</p>
-<p>This codelab serves as a comprehensive step-by-step guide on how to deploy a smart contract on the IoTeX network! We will be creating a simple ERC20 token called BasicToken and deploying it on MainNet Alpha.</p>
-<h2 is-upgraded><strong>What is a smart contract?</strong></h2>
-<p>&#34;Smart contracts are self-executing contracts with the terms of the agreement between buyer and seller being directly written into lines of code. The code and the agreements contained therein exist across a distributed, decentralized blockchain network&#34; - Investopedia</p>
-<h2 class="checklist" is-upgraded><strong>What you&#39;ll learn</strong></h2>
-<ul class="checklist">
-<li>How to write a simple smart contract in solidity</li>
-<li>How to compile your smart contract</li>
-<li>How to deploy your smart contract</li>
-<li>How to interact with your smart contract</li>
-</ul>
-<h2 is-upgraded><strong>What you&#39;ll need</strong></h2>
-<ul>
-<li>Computer</li>
-<li>Basic knowledge of solidity and nodejs</li>
-<li>Some IOTX as gas fee</li>
-</ul>
-<aside class="warning"><h3 is-upgraded><strong>I don&#39;t have any IOTX, what do I do? </strong></h3>
-<p>Join the <a href="https://t.me/IoTeXDev" target="_blank">IoTeX developer telegram</a>. People there will be happy to help you.</p>
-</aside>
+  <google-codelab codelab-gaid="" id="deploy-smart-contract" title="Deploying a simple smart contract" environment="web"
+    feedback-link="https://github.com/iotexproject/codelabs/issues">
+
+    <google-codelab-step label="Overview" duration="0">
+      <p><strong>Last Updated:</strong> 2019-07-23</p>
+      <p>This codelab serves as a comprehensive step-by-step guide on how to deploy a smart contract on the IoTeX
+        network! We will be creating a simple ERC20 token called BasicToken and deploying it on MainNet Alpha.</p>
+      <h2 is-upgraded><strong>What is a smart contract?</strong></h2>
+      <p>&#34;Smart contracts are self-executing contracts with the terms of the agreement between buyer and seller
+        being directly written into lines of code. The code and the agreements contained therein exist across a
+        distributed, decentralized blockchain network&#34; - Investopedia</p>
+      <h2 class="checklist" is-upgraded><strong>What you&#39;ll learn</strong></h2>
+      <ul class="checklist">
+        <li>How to write a simple smart contract in solidity</li>
+        <li>How to compile your smart contract</li>
+        <li>How to deploy your smart contract</li>
+        <li>How to interact with your smart contract</li>
+      </ul>
+      <h2 is-upgraded><strong>What you&#39;ll need</strong></h2>
+      <ul>
+        <li>Computer</li>
+        <li>Basic knowledge of solidity and nodejs</li>
+        <li>Some IOTX as gas fee</li>
+      </ul>
+      <aside class="warning">
+        <h3 is-upgraded><strong>I don&#39;t have any IOTX, what do I do? </strong></h3>
+        <p>Join the <a href="https://t.me/IoTeXDev" target="_blank">IoTeX developer telegram</a>. People there will be
+          happy to help you.</p>
+      </aside>
 
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="Getting Started" duration="5">
-        <h3 is-upgraded>Install node/npm</h3>
-<p>Download and install <a href="https://nodejs.org/en/" target="_blank">node</a> and <a href="https://www.npmjs.com/get-npm" target="_blank">npm</a> from NodeJS website. We will need npm (Node Package Manager) to help with managing dependencies and utilizing Open-Zeppelin, a library for smart contract development.</p>
-<p>Verify your installation:</p>
-<pre>$ node -v
+    </google-codelab-step>
+
+    <google-codelab-step label="Getting Started" duration="5">
+      <h3 is-upgraded>Install node/npm</h3>
+      <p>Download and install <a href="https://nodejs.org/en/" target="_blank">node</a> and <a
+          href="https://www.npmjs.com/get-npm" target="_blank">npm</a> from NodeJS website. We will need npm (Node
+        Package Manager) to help with managing dependencies and utilizing Open-Zeppelin, a library for smart contract
+        development.</p>
+      <p>Verify your installation:</p>
+      <pre>$ node -v
 $ npm -v</pre>
-<aside class="special"><p>Recommended: On MacOS/Linux, install with <a href="https://github.com/nvm-sh/nvm" target="_blank">nvm</a> to avoid permission errors</p>
-</aside>
-<h3 is-upgraded><strong>Install truffle</strong></h3>
-<p>Truffle is a popular development framework for Ethereum. We will use truffle to compile our smart contract.</p>
-<pre>$ npm install -g truffle</pre>
+      <aside class="special">
+        <p>Recommended: On MacOS/Linux, install with <a href="https://github.com/nvm-sh/nvm" target="_blank">nvm</a> to
+          avoid permission errors</p>
+      </aside>
+      <h3 is-upgraded><strong>Install truffle</strong></h3>
+      <p>Truffle is a popular development framework for Ethereum. We will use truffle to compile our smart contract.</p>
+      <pre>$ npm install -g truffle</pre>
 
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="Creating the environment" duration="3">
-        <p>To begin, make a new directory and initialize an empty truffle project. This will be the environment we work in to build smart contracts.</p>
-<pre>$ mkdir BasicToken
+    </google-codelab-step>
+
+    <google-codelab-step label="Creating the environment" duration="3">
+      <p>To begin, make a new directory and initialize an empty truffle project. This will be the environment we work in
+        to build smart contracts.</p>
+      <pre>$ mkdir BasicToken
 $ cd BasicToken
 $ truffle init</pre>
-<p>Now initialize a new npm project within your environment:</p>
-<pre>$ npm init -y</pre>
-<p>We will be using OpenZeppelin to create a barebones ERC20 token. OpenZeppelin is another great library for secure smart contract development. It provides implementations of ERC20 standards that we will use to create our own token!</p>
-<pre>$ npm install -E openzeppelin-solidity</pre>
+      <p>Now initialize a new npm project within your environment:</p>
+      <pre>$ npm init -y</pre>
+      <p>We will be using OpenZeppelin to create a barebones ERC20 token. OpenZeppelin is another great library for
+        secure smart contract development. It provides implementations of ERC20 standards that we will use to create our
+        own token!</p>
+      <pre>$ npm install -E openzeppelin-solidity</pre>
 
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="Writing your Contract" duration="5">
-        <p>We will now begin writing our smart contract!</p>
-<p>Through the <code>truffle init</code> command, a new contracts folder should have been created. Add a new solidity file <code>.sol</code> to the contracts folder and open it in the code editor of your choice.</p>
-<p>All solidity contracts begin with the version definition (0.5.0 is the latest version):</p>
-<pre><code>pragma solidity ^0.5.0;</code></pre>
-<p>Now import the OpenZeppelin ERC20 class that we will be inheriting from:</p>
-<pre><code>import &#34;../node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20.sol&#34;;</code></pre>
-<p>We can now define our new smart contract. In this example, we will call it BasicToken: </p>
-<h3 is-upgraded><a href="https://github.com/iotexproject/codelabs/blob/master/contracts/contract.sol" target="_blank">View code</a></h3>
-<pre><code>contract BasicToken is ERC20 {
+    </google-codelab-step>
+
+    <google-codelab-step label="Writing your Contract" duration="5">
+      <p>We will now begin writing our smart contract!</p>
+      <p>Through the <code>truffle init</code> command, a new contracts folder should have been created. Add a new
+        solidity file <code>.sol</code> to the contracts folder and open it in the code editor of your choice.</p>
+      <p>All solidity contracts begin with the version definition (0.5.0 is the latest version):</p>
+      <pre><code>pragma solidity ^0.5.0;</code></pre>
+      <p>Now import the OpenZeppelin ERC20 class that we will be inheriting from:</p>
+      <pre><code>import &#34;../node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20.sol&#34;;</code></pre>
+      <p>We can now define our new smart contract. In this example, we will call it BasicToken: </p>
+      <h3 is-upgraded><a href="https://github.com/iotexproject/codelabs/blob/master/contracts/contract.sol"
+          target="_blank">View code</a></h3>
+      <pre><code>contract BasicToken is ERC20 {
    string public constant name = &#34;BasicToken&#34;;
    string public constant symbol = &#34;BT&#34;;
    uint8 public constant decimals = 5;
@@ -98,35 +113,41 @@ $ truffle init</pre>
        _mint(msg.sender, INITIAL_SUPPLY);
    }
 }</code></pre>
-<p>Our BasicToken has a few fields you can customize:</p>
-<ul>
-<li><code>Name</code> : the name of your token</li>
-<li><code>Symbol</code> : your token&#39;s symbol</li>
-<li><code>Decimals</code> : the decimal count of your token</li>
-<li><code>INITIAL_SUPPLY</code> : the total number of initial tokens in circulation</li>
-</ul>
-<p>Feel free to change these fields to whatever you&#39;d like.</p>
-<p>In our basic token definition, all of the <code>INITIAL_SUPPLY</code> is given to the contract instantiator, as defined by the <code>_mint</code> function</p>
-<p> And that&#39;s it. Our solidity smart contract is finished!</p>
+      <p>Our BasicToken has a few fields you can customize:</p>
+      <ul>
+        <li><code>Name</code> : the name of your token</li>
+        <li><code>Symbol</code> : your token&#39;s symbol</li>
+        <li><code>Decimals</code> : the decimal count of your token</li>
+        <li><code>INITIAL_SUPPLY</code> : the total number of initial tokens in circulation</li>
+      </ul>
+      <p>Feel free to change these fields to whatever you&#39;d like.</p>
+      <p>In our basic token definition, all of the <code>INITIAL_SUPPLY</code> is given to the contract instantiator, as
+        defined by the <code>_mint</code> function</p>
+      <p> And that&#39;s it. Our solidity smart contract is finished!</p>
 
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="Compiling your Contract" duration="5">
-        <p>To compile our contract, we are going to use Truffle. Truffle automatically compiles all <code>.sol</code> files we have in our contracts folder and builds them in the <code>build/contracts</code> directory.</p>
-<p>Call truffle compile:</p>
-<pre>$ truffle compile</pre>
-<aside class="warning"><p><strong>Important</strong>: Make sure you are in the root directory of your project</p>
-</aside>
-<p>Navigate to your build folder. You should see a folder called contracts:</p>
-<pre>$ cd build
+    </google-codelab-step>
+
+    <google-codelab-step label="Compiling your Contract" duration="5">
+      <p>To compile our contract, we are going to use Truffle. Truffle automatically compiles all <code>.sol</code>
+        files we have in our contracts folder and builds them in the <code>build/contracts</code> directory.</p>
+      <p>Call truffle compile:</p>
+      <pre>$ truffle compile</pre>
+      <aside class="warning">
+        <p><strong>Important</strong>: Make sure you are in the root directory of your project</p>
+      </aside>
+      <p>Navigate to your build folder. You should see a folder called contracts:</p>
+      <pre>$ cd build
 $ ls
 contracts</pre>
-<p>Within contracts you will see multiple JSON files. One of which will be named <code>BasicToken.json</code>, or if you customized the contract, the contract name you chose.</p>
-<p><code>BasicToken.json</code> holds two key values that you will need to deploy your smart contract: abi and bytecode. ABI (Application Bytecode Interface) is necessary to access the bytecode, which contains your smart contract converted to binary data.</p>
-<p>Open BasicToken.json and record these two values.</p>
-<p>It should look something like this:</p>
-<pre><code>{
+      <p>Within contracts you will see multiple JSON files. One of which will be named <code>BasicToken.json</code>, or
+        if you customized the contract, the contract name you chose.</p>
+      <p><code>BasicToken.json</code> holds two key values that you will need to deploy your smart contract: abi and
+        bytecode. ABI (Application Bytecode Interface) is necessary to access the bytecode, which contains your smart
+        contract converted to binary data.</p>
+      <p>Open BasicToken.json and record these two values.</p>
+      <p>It should look something like this:</p>
+      <pre><code>{
  &#34;contractName&#34;: &#34;BasicToken&#34;,
  &#34;abi&#34;: [{...}],
  &#34;metadata&#34; : &#34;...&#34;,
@@ -134,71 +155,93 @@ contracts</pre>
  &#34;deployedBytecode&#34;: &#34;...&#34;,
  ...
 }</code></pre>
-<p>Ignore the <code>metadata</code> and <code>deployedBytecode</code>. What you are looking for is the value of <code>abi</code> and <code>bytecode</code>. </p>
-<p>In our example:</p>
-<ul>
-<li><code>abi</code> : [{ ... }]</li>
-<li><code>bytecode</code> : 0x608...</li>
-</ul>
+      <p>Ignore the <code>metadata</code> and <code>deployedBytecode</code>. What you are looking for is the value of
+        <code>abi</code> and <code>bytecode</code>. </p>
+      <p>In our example:</p>
+      <ul>
+        <li><code>abi</code> : [{ ... }]</li>
+        <li><code>bytecode</code> : 0x608...</li>
+      </ul>
 
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="Deploying your Contract" duration="5">
-        <p>To deploy our BasicToken, we should visit <a href="http://iotexscan.io/wallet" target="_blank">iotexscan.io/wallet</a>, to deploy on MainNet, or <a href="https://testnet.iotexscan.io/wallet" target="_blank">testnet.iotexscan.io/wallet</a>, to deploy on TestNet. In this example, we will be deploying on MainNet, but regardless, the steps should be identical.</p>
-<aside class="warning"><p><strong>Important</strong>: Deploying a smart contract requires some IOTX as a gas fee. Please make sure you have at least 1 IOTX before continuing.</p>
-</aside>
-<p>After visiting iotexscan, log into your wallet, either by private key or keystore. If you don&#39;t have a wallet, make one.</p>
-<p>After logging in, you should be brought to this page. Select smart contract: </p>
-<p class="image-container"><img style="width: 624.00px" src="img/c4e87ed80515b4db.png"></p>
-<p>Select deploy contract:</p>
-<p class="image-container"><img style="width: 624.00px" src="img/37088ac1e5a05f88.png"></p>
-<p>Paste your abi and bytecode into the corresponding fields: </p>
-<p class="image-container"><img style="width: 624.00px" src="img/9aaa99fecdecd5bd.png"></p>
-<aside class="warning"><p>If you are getting an invalid ABI error, make sure you have both square brackets around your interface</p>
-</aside>
-<p>Select a gas price and gas limit. The gas price is the price per unit of gas and the gas limit is the total amount of gas willing to be spent before the transaction is dropped. </p>
-<p>In our example, we will set the gas price to 1 and the gas limit to 5,000,000.</p>
-<p>Select sign contract and confirm:</p>
-<p class="image-container"><img style="width: 624.00px" src="img/563441b00ef8794.png"></p>
-<p>You will receive a transaction hash. Wait until the icon turns green and click on your hash to query it. Alternatively, you can query manually on <a href="http://iotexscan.io" target="_blank">iotexscan.io</a>:</p>
-<p class="image-container"><img style="width: 624.00px" src="img/efba283cb69586ad.png"></p>
-<aside class="warning"><p><strong>Warning</strong>: If your don&#39;t see your transaction, your transaction may have been dropped. Either the gas limit was too low or you don&#39;t have enough IOTX to perform the transaction. Increase the gas limit or IOTX and redeploy following the steps above.</p>
-</aside>
-<p>After successfully querying your transaction, scroll down and you should see a contract receipt which contains your contact address. Record this down as this is necessary to interact with your smart contract:</p>
-<p class="image-container"><img style="width: 624.00px" src="img/dbfead8d29e549f8.png"></p>
-<p>As you can see, an action fee of 1.26 IOTX was consumed to deploy this contract.</p>
+    </google-codelab-step>
+
+    <google-codelab-step label="Deploying your Contract" duration="5">
+      <p>To deploy our BasicToken, we should visit <a href="http://iotexscan.io/wallet"
+          target="_blank">iotexscan.io/wallet</a>, to deploy on MainNet, or <a
+          href="https://testnet.iotexscan.io/wallet" target="_blank">testnet.iotexscan.io/wallet</a>, to deploy on
+        TestNet. In this example, we will be deploying on MainNet, but regardless, the steps should be identical.</p>
+      <aside class="warning">
+        <p><strong>Important</strong>: Deploying a smart contract requires some IOTX as a gas fee. Please make sure you
+          have at least 1 IOTX before continuing.</p>
+      </aside>
+      <p>After visiting iotexscan, log into your wallet, either by private key or keystore. If you don&#39;t have a
+        wallet, make one.</p>
+      <p>After logging in, you should be brought to this page. Select smart contract: </p>
+      <p class="image-container"><img style="width: 624.00px" src="img/c4e87ed80515b4db.png"></p>
+      <p>Select deploy contract:</p>
+      <p class="image-container"><img style="width: 624.00px" src="img/37088ac1e5a05f88.png"></p>
+      <p>Paste your abi and bytecode into the corresponding fields: </p>
+      <p class="image-container"><img style="width: 624.00px" src="img/9aaa99fecdecd5bd.png"></p>
+      <aside class="warning">
+        <p>If you are getting an invalid ABI error, make sure you have both square brackets around your interface</p>
+      </aside>
+      <p>Select a gas price and gas limit. The gas price is the price per unit of gas and the gas limit is the total
+        amount of gas willing to be spent before the transaction is dropped. </p>
+      <p>In our example, we will set the gas price to 1 and the gas limit to 5,000,000.</p>
+      <p>Select sign contract and confirm:</p>
+      <p class="image-container"><img style="width: 624.00px" src="img/563441b00ef8794.png"></p>
+      <p>You will receive a transaction hash. Wait until the icon turns green and click on your hash to query it.
+        Alternatively, you can query manually on <a href="http://iotexscan.io" target="_blank">iotexscan.io</a>:</p>
+      <p class="image-container"><img style="width: 624.00px" src="img/efba283cb69586ad.png"></p>
+      <aside class="warning">
+        <p><strong>Warning</strong>: If your don&#39;t see your transaction, your transaction may have been dropped.
+          Either the gas limit was too low or you don&#39;t have enough IOTX to perform the transaction. Increase the
+          gas limit or IOTX and redeploy following the steps above.</p>
+      </aside>
+      <p>After successfully querying your transaction, scroll down and you should see a contract receipt which contains
+        your contact address. Record this down as this is necessary to interact with your smart contract:</p>
+      <p class="image-container"><img style="width: 624.00px" src="img/dbfead8d29e549f8.png"></p>
+      <p>As you can see, an action fee of 1.26 IOTX was consumed to deploy this contract.</p>
 
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="Interacting with your Contract" duration="5">
-        <p>Hurray! You just deployed your first contract. Now we can interact with our contract and see how it works. </p>
-<p>Go back to <a href="http://iotex-scan.io/wallet" target="_blank">iotex-scan.io/wallet</a> or <a href="https://testnet.iotexscan.io/wallet" target="_blank">testnet.iotexscan.io/wallet</a>, if you deployed on Testnet, but this time select interact with smart contract:</p>
-<p class="image-container"><img style="width: 624.00px" src="img/17c4eb2fbd2144a3.png"></p>
-<p>Now paste in the contract address and abi you recorded earlier and hit access:</p>
-<p class="image-container"><img style="width: 624.00px" src="img/99763340759c76ec.png"></p>
-<aside class="warning"><p><strong>Note</strong>: There are two different types of smart contract interactions: Read and Write. Reading doesn&#39;t require any gas fee, however writing will require gas, hence the amount, gas price, and gas limit fields.</p>
-</aside>
-<p>You should now see a dropdown menu under &#34;Interact with smart contract&#34;:</p>
-<p>Try clicking on it, you should see all of the functions defined in our smart contract:</p>
-<p class="image-container"><img style="width: 624.00px" src="img/d737770a39905423.png"></p>
-<p>Note that in our smart contract, we didn&#39;t define any functions. All functions were inherited from Open-Zeppelin&#39;s erc20 token standard. We did however, define a constructor which gives us the total supply.</p>
-<p>You can select any of these functions and try running them.</p>
-<p>For example, readBalance should return the INITIAL_SUPPLY that we defined earlier:</p>
-<p class="image-container"><img style="width: 624.00px" src="img/367ab419e760c30a.png"></p>
-<p>As you can see, the contract is functioning as expected. We have all of the initial supply in our account!</p>
+    </google-codelab-step>
+
+    <google-codelab-step label="Interacting with your Contract" duration="5">
+      <p>Hurray! You just deployed your first contract. Now we can interact with our contract and see how it works. </p>
+      <p>Go back to <a href="http://iotex-scan.io/wallet" target="_blank">iotex-scan.io/wallet</a> or <a
+          href="https://testnet.iotexscan.io/wallet" target="_blank">testnet.iotexscan.io/wallet</a>, if you deployed on
+        Testnet, but this time select interact with smart contract:</p>
+      <p class="image-container"><img style="width: 624.00px" src="img/17c4eb2fbd2144a3.png"></p>
+      <p>Now paste in the contract address and abi you recorded earlier and hit access:</p>
+      <p class="image-container"><img style="width: 624.00px" src="img/99763340759c76ec.png"></p>
+      <aside class="warning">
+        <p><strong>Note</strong>: There are two different types of smart contract interactions: Read and Write. Reading
+          doesn&#39;t require any gas fee, however writing will require gas, hence the amount, gas price, and gas limit
+          fields.</p>
+      </aside>
+      <p>You should now see a dropdown menu under &#34;Interact with smart contract&#34;:</p>
+      <p>Try clicking on it, you should see all of the functions defined in our smart contract:</p>
+      <p class="image-container"><img style="width: 624.00px" src="img/d737770a39905423.png"></p>
+      <p>Note that in our smart contract, we didn&#39;t define any functions. All functions were inherited from
+        Open-Zeppelin&#39;s erc20 token standard. We did however, define a constructor which gives us the total supply.
+      </p>
+      <p>You can select any of these functions and try running them.</p>
+      <p>For example, readBalance should return the INITIAL_SUPPLY that we defined earlier:</p>
+      <p class="image-container"><img style="width: 624.00px" src="img/367ab419e760c30a.png"></p>
+      <p>As you can see, the contract is functioning as expected. We have all of the initial supply in our account!</p>
 
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="Next Steps" duration="0">
-        <p>Congratulations! You have finished the codelab.</p>
-<p>Now that you know how to write and deploy a simple smart contract, you can go on to build more sophisticated contracts, such as dapp games and much more!</p>
+    </google-codelab-step>
+
+    <google-codelab-step label="Next Steps" duration="0">
+      <p>Congratulations! You have finished the codelab.</p>
+      <p>Now that you know how to write and deploy a simple smart contract, you can go on to build more sophisticated
+        contracts, such as dapp games and much more!</p>
 
 
-      </google-codelab-step>
-    
+    </google-codelab-step>
+
   </google-codelab>
 
   <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
@@ -207,4 +250,5 @@ contracts</pre>
   <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
 
 </body>
+
 </html>

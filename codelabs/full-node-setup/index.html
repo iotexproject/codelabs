@@ -1,59 +1,62 @@
-
 <!doctype html>
 
 <html>
+
 <head>
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <meta name="theme-color" content="#4F7DC9">
   <meta charset="UTF-8">
   <title>Setting up a full node</title>
-  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet"
+    href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
   <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <link rel="stylesheet" href="../style/codelab-elements.css">
   <style>
     .success {
       color: #1e8e3e;
     }
+
     .error {
       color: red;
     }
   </style>
 </head>
+
 <body>
   <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
-  <google-codelab codelab-gaid="..."
-                  id="full-node-setup"
-                  title="Setting up a full node"
-                  environment="web"
-                  feedback-link="https://github.com/iotexproject/codelabs/issues">
-    
-      <google-codelab-step label="Overview" duration="0">
-        <p><strong>Last Updated:</strong> 2019-07-23</p>
-<p>This codelab serves as a comprehensive step-by-step guide on how to set up a full node for delegates on either IoTeX Mainnet alpha or Testnet. </p>
-<h2 is-upgraded><strong>What is a full node?</strong></h2>
-<p>Full nodes are devices that support the IoTeX network by maintaining a full copy of our blockchain. Full nodes can help to validate transactions, accept transactions, and communicate with other nodes.</p>
-<h2 class="checklist" is-upgraded><strong>What you&#39;ll learn</strong></h2>
-<ul class="checklist">
-<li>How to set up a full node on either Mainnet Alpha or Testnet</li>
-<li>How to connect to IoTeX blockchain</li>
-<li>How to interact with IoTeX blockchain</li>
-<li>How to make sure your node is working</li>
-</ul>
-<h2 is-upgraded><strong>What you&#39;ll need</strong></h2>
-<ul>
-<li>Machine to host node</li>
-<li>Basic knowledge of how to operate terminal</li>
-</ul>
+  <google-codelab codelab-gaid="..." id="full-node-setup" title="Setting up a full node" environment="web"
+    feedback-link="https://github.com/iotexproject/codelabs/issues">
+
+    <google-codelab-step label="Overview" duration="0">
+      <p><strong>Last Updated:</strong> 2019-07-23</p>
+      <p>This codelab serves as a comprehensive step-by-step guide on how to set up a full node for delegates on either
+        IoTeX Mainnet alpha or Testnet. </p>
+      <h2 is-upgraded><strong>What is a full node?</strong></h2>
+      <p>Full nodes are devices that support the IoTeX network by maintaining a full copy of our blockchain. Full nodes
+        can help to validate transactions, accept transactions, and communicate with other nodes.</p>
+      <h2 class="checklist" is-upgraded><strong>What you&#39;ll learn</strong></h2>
+      <ul class="checklist">
+        <li>How to set up a full node on either Mainnet Alpha or Testnet</li>
+        <li>How to connect to IoTeX blockchain</li>
+        <li>How to interact with IoTeX blockchain</li>
+        <li>How to make sure your node is working</li>
+      </ul>
+      <h2 is-upgraded><strong>What you&#39;ll need</strong></h2>
+      <ul>
+        <li>Machine to host node</li>
+        <li>Basic knowledge of how to operate terminal</li>
+      </ul>
 
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="Getting Started" duration="5">
-        <h2 is-upgraded>Install Docker</h2>
-<p>We use Docker images to automate our application deployment. Install Docker following instructions from the Docker&#39;s <a href="https://docs.docker.com/install/" target="_blank">website</a></p>
-<h3 is-upgraded><strong>Verify Docker is working properly</strong></h3>
-<p>Run the following command to check that Docker is successfully installed</p>
-<pre>$ docker run hello-world
+    </google-codelab-step>
+
+    <google-codelab-step label="Getting Started" duration="5">
+      <h2 is-upgraded>Install Docker</h2>
+      <p>We use Docker images to automate our application deployment. Install Docker following instructions from the
+        Docker&#39;s <a href="https://docs.docker.com/install/" target="_blank">website</a></p>
+      <h3 is-upgraded><strong>Verify Docker is working properly</strong></h3>
+      <p>Run the following command to check that Docker is successfully installed</p>
+      <pre>$ docker run hello-world
 Hello from Docker!
 This message shows that your installation appears to be working correctly.
 
@@ -65,43 +68,47 @@ To generate this message, Docker took the following steps:
     executable that produces the output you are currently reading.
  4. The Docker daemon streamed that output to the Docker client, which sent it
     to your terminal.</pre>
-<aside class="warning"><p><strong>Warning</strong>: Docker may require system administrator privileges. </p>
-<p>If so, add Docker to the sudo group </p>
-<p><code>$ sudo groupadd docker</code></p>
-</aside>
-<h2 is-upgraded><strong>Install ioctl</strong></h2>
-<p>ioctl is a command-line interface used to interact with the blockchain</p>
-<pre>$ curl https://raw.githubusercontent.com/iotexproject/iotex-core/master/install-cli.sh | sh</pre>
-<h3 is-upgraded><strong>Verify ioctl is working correctly</strong></h3>
-<p>Make sure you have the latest version of ioctl</p>
-<pre>$ ioctl version
+      <aside class="warning">
+        <p><strong>Warning</strong>: Docker may require system administrator privileges. </p>
+        <p>If so, add Docker to the sudo group </p>
+        <p><code>$ sudo groupadd docker</code></p>
+      </aside>
+      <h2 is-upgraded><strong>Install ioctl</strong></h2>
+      <p>ioctl is a command-line interface used to interact with the blockchain</p>
+      <pre>$ curl https://raw.githubusercontent.com/iotexproject/iotex-core/master/install-cli.sh | sh</pre>
+      <h3 is-upgraded><strong>Verify ioctl is working correctly</strong></h3>
+      <p>Make sure you have the latest version of ioctl</p>
+      <pre>$ ioctl version
 Client:
 packageVersion:&#34;v0.6.2&#34; packageCommitID:&#34;2df78e9460dee3bd3d96526468472409ac36d615&#34; gitStatus:&#34;clean&#34; goVersion:&#34;go version go1.12 linux/amd64&#34; buildTime:&#34;2019-05-29-UTC/21:41:31&#34;</pre>
-<h3 is-upgraded><strong>Configure endpoint</strong></h3>
-<p>To use ioctl, you must first point ioctl to a node endpoint. Depending on which network you want to join, set the endpoint in your config:</p>
-<ul>
-<li>MainNet secure: api.iotex.one:443</li>
-<li>MainNet insecure: api.iotex.one:80</li>
-<li>TestNet secure: api.testnet.iotex.one:443</li>
-<li>TestNet insecure: api.testnet.iotex.one:80</li>
-</ul>
-<pre>$ ioctl config set endpoint api.iotex.one:443
+      <h3 is-upgraded><strong>Configure endpoint</strong></h3>
+      <p>To use ioctl, you must first point ioctl to a node endpoint. Depending on which network you want to join, set
+        the endpoint in your config:</p>
+      <ul>
+        <li>MainNet secure: api.iotex.one:443</li>
+        <li>MainNet insecure: api.iotex.one:80</li>
+        <li>TestNet secure: api.testnet.iotex.one:443</li>
+        <li>TestNet insecure: api.testnet.iotex.one:80</li>
+      </ul>
+      <pre>$ ioctl config set endpoint api.iotex.one:443
 endpoint is set to api.iotex.one:443</pre>
-<aside class="warning"><p><strong>Important</strong>: If you want to set an insecure endpoint, you must add an insecure flag</p>
-<p><code>$ ioctl config set api.iotex.one:80 --insecure</code></p>
-</aside>
+      <aside class="warning">
+        <p><strong>Important</strong>: If you want to set an insecure endpoint, you must add an insecure flag</p>
+        <p><code>$ ioctl config set api.iotex.one:80 --insecure</code></p>
+      </aside>
 
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="Creating an account" duration="2">
-        <aside class="special"><p>If you already have an account, skip to the next section</p>
-</aside>
-<h2 is-upgraded><strong>Make account</strong></h2>
-<p>You can create a new account using ioctl. This will be your delegate account on the blockchain.</p>
-<pre>$ ioctl account create</pre>
-<p>You should receive an output such as this.</p>
-<pre>{
+    </google-codelab-step>
+
+    <google-codelab-step label="Creating an account" duration="2">
+      <aside class="special">
+        <p>If you already have an account, skip to the next section</p>
+      </aside>
+      <h2 is-upgraded><strong>Make account</strong></h2>
+      <p>You can create a new account using ioctl. This will be your delegate account on the blockchain.</p>
+      <pre>$ ioctl account create</pre>
+      <p>You should receive an output such as this.</p>
+      <pre>{
   &#34;accounts&#34;: [
     {
       &#34;address&#34;: &#34;io1s9dumlan7px6cwm9j2l79kveh4232nh5580e7k&#34;,
@@ -110,24 +117,27 @@ endpoint is set to api.iotex.one:443</pre>
     }
   ]
 }</pre>
-<p><strong>Important</strong>: Note down you private key as this will be useful later.</p>
+      <p><strong>Important</strong>: Note down you private key as this will be useful later.</p>
 
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="Setting up a node: MainNet" duration="5">
-        <aside class="warning"><p><strong>Important</strong>: This section is for setting up a node on MainNet, if you would like to set up a node on TestNet, please skip to the next section</p>
-</aside>
-<h2 is-upgraded><strong>Pull docker image</strong></h2>
-<p>Make sure to pull the latest iotex-core image</p>
-<ul>
-<li>MainNet: <a href="https://github.com/iotexproject/iotex-core/tree/2df78e9460dee3bd3d96526468472409ac36d615" target="_blank">v0.6.2</a></li>
-<li>TestNet: v0.7.2</li>
-</ul>
-<pre>$ docker pull iotex/iotex-core:v.0.6.2</pre>
-<h2 is-upgraded><strong>Setup node environment</strong></h2>
-<p>The following commands will set up an environment to store node/config files for MainNet.</p>
-<pre>$ mkdir -p ~/iotex-var
+    </google-codelab-step>
+
+    <google-codelab-step label="Setting up a node: MainNet" duration="5">
+      <aside class="warning">
+        <p><strong>Important</strong>: This section is for setting up a node on MainNet, if you would like to set up a
+          node on TestNet, please skip to the next section</p>
+      </aside>
+      <h2 is-upgraded><strong>Pull docker image</strong></h2>
+      <p>Make sure to pull the latest iotex-core image</p>
+      <ul>
+        <li>MainNet: <a href="https://github.com/iotexproject/iotex-core/tree/2df78e9460dee3bd3d96526468472409ac36d615"
+            target="_blank">v0.6.2</a></li>
+        <li>TestNet: v0.7.2</li>
+      </ul>
+      <pre>$ docker pull iotex/iotex-core:v.0.6.2</pre>
+      <h2 is-upgraded><strong>Setup node environment</strong></h2>
+      <p>The following commands will set up an environment to store node/config files for MainNet.</p>
+      <pre>$ mkdir -p ~/iotex-var
 $ cd ~/iotex-var
 
 $ export IOTEX_HOME=$PWD
@@ -138,12 +148,12 @@ $ mkdir -p $IOTEX_HOME/etc
 
 $ curl https://raw.githubusercontent.com/iotexproject/iotex-bootstrap/master/config_mainnet.yaml &gt; $IOTEX_HOME/etc/config.yaml
 $ curl https://raw.githubusercontent.com/iotexproject/iotex-bootstrap/master/genesis_mainnet.yaml &gt; $IOTEX_HOME/etc/genesis.yaml</pre>
-<h2 is-upgraded>Setup config</h2>
-<p>You will need to set up your config file with your machine and account details. </p>
-<p>Open the yaml file using vi or a text editor of your choice</p>
-<pre>$ vi $IOTEX_HOME/etc/config.yaml</pre>
-<p>You should see something like this</p>
-<pre><code>network:
+      <h2 is-upgraded>Setup config</h2>
+      <p>You will need to set up your config file with your machine and account details. </p>
+      <p>Open the yaml file using vi or a text editor of your choice</p>
+      <pre>$ vi $IOTEX_HOME/etc/config.yaml</pre>
+      <p>You should see something like this</p>
+      <pre><code>network:
   externalHost: 34.208.88.254
   externalPort: 4689
   bootstrapNodes:
@@ -153,10 +163,11 @@ $ curl https://raw.githubusercontent.com/iotexproject/iotex-bootstrap/master/gen
 chain:
   producerPrivKey: dbbf36378635bc743f698f39913e95728934c3991b8997b742a22424aa33c
 ...</code></pre>
-<p>Replace the<strong> producerPrivKey</strong> field with your account private key and <strong>externalHost</strong> with your ip address</p>
-<h2 is-upgraded><strong>Running your node</strong></h2>
-<p>To start your node, run the following command.</p>
-<pre>$ docker run -d --restart on-failure --name iotex \
+      <p>Replace the<strong> producerPrivKey</strong> field with your account private key and
+        <strong>externalHost</strong> with your ip address</p>
+      <h2 is-upgraded><strong>Running your node</strong></h2>
+      <p>To start your node, run the following command.</p>
+      <pre>$ docker run -d --restart on-failure --name iotex \
         -p 4689:4689 \
         -p 8080:8080 \
         -v=$IOTEX_HOME/data:/var/data:rw \
@@ -167,8 +178,9 @@ chain:
         iotex-server \
         -config-path=/etc/iotex/config_override.yaml \
         -genesis-path=/etc/iotex/genesis.yaml</pre>
-<p>If you would like to run your node as a gateway: allow your node to process API requests from other users, use this command instead.</p>
-<pre>docker run -d --restart on-failure --name iotex \
+      <p>If you would like to run your node as a gateway: allow your node to process API requests from other users, use
+        this command instead.</p>
+      <pre>docker run -d --restart on-failure --name iotex \
         -p 4689:4689 \
         -p 14014:14014 \
         -p 8080:8080 \
@@ -183,17 +195,19 @@ chain:
         -plugin=gateway</pre>
 
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="Setting up a node: TestNet" duration="5">
-        <aside class="warning"><p><strong>Important</strong>: This section is for setting up a node on TestNet, if you would like to set up a node on MainNet, please go back to the previous section</p>
-</aside>
-<h2 is-upgraded><strong>Pull docker image</strong></h2>
-<p>Make sure to pull the latest iotex-core TestNet image: v.0.7.2</p>
-<pre>$ docker pull iotex/iotex-core:v.0.7.2</pre>
-<h2 is-upgraded><strong>Setup node environment</strong></h2>
-<p>The following commands will set up an environment to store node/config files for MainNet.</p>
-<pre>$ mkdir -p ~/iotex-var
+    </google-codelab-step>
+
+    <google-codelab-step label="Setting up a node: TestNet" duration="5">
+      <aside class="warning">
+        <p><strong>Important</strong>: This section is for setting up a node on TestNet, if you would like to set up a
+          node on MainNet, please go back to the previous section</p>
+      </aside>
+      <h2 is-upgraded><strong>Pull docker image</strong></h2>
+      <p>Make sure to pull the latest iotex-core TestNet image: v.0.7.2</p>
+      <pre>$ docker pull iotex/iotex-core:v.0.7.2</pre>
+      <h2 is-upgraded><strong>Setup node environment</strong></h2>
+      <p>The following commands will set up an environment to store node/config files for MainNet.</p>
+      <pre>$ mkdir -p ~/iotex-var
 $ cd ~/iotex-var
 
 $ export IOTEX_HOME=$PWD
@@ -204,12 +218,12 @@ $ mkdir -p $IOTEX_HOME/etc
 
 $ curl https://raw.githubusercontent.com/iotexproject/iotex-bootstrap/master/config_testnet.yaml &gt; $IOTEX_HOME/etc/config.yaml
 $ curl https://raw.githubusercontent.com/iotexproject/iotex-bootstrap/master/genesis_testnet.yaml &gt; $IOTEX_HOME/etc/genesis.yaml</pre>
-<h2 is-upgraded><strong>Setup config</strong></h2>
-<p>You will need to set up your config file with your machine and account details. </p>
-<p>Open the yaml file using vi or a text editor of your choice</p>
-<pre>$ vi $IOTEX_HOME/etc/config.yaml</pre>
-<p>You should see something like this</p>
-<pre><code>network:
+      <h2 is-upgraded><strong>Setup config</strong></h2>
+      <p>You will need to set up your config file with your machine and account details. </p>
+      <p>Open the yaml file using vi or a text editor of your choice</p>
+      <pre>$ vi $IOTEX_HOME/etc/config.yaml</pre>
+      <p>You should see something like this</p>
+      <pre><code>network:
   externalHost: 34.208.88.254
   externalPort: 4689
   bootstrapNodes:
@@ -219,10 +233,11 @@ $ curl https://raw.githubusercontent.com/iotexproject/iotex-bootstrap/master/gen
 chain:
   producerPrivKey: dbbf36378635bc743f698f39913e95728934c3991b8997b742a22424aa33c
 ...</code></pre>
-<p>Replace the<strong> producerPrivKey</strong> field with your account private key and <strong>externalHost</strong> with your ip address</p>
-<h2 is-upgraded><strong>Running your node</strong></h2>
-<p>To start your node, run the following command.</p>
-<pre>$ docker run -d --restart on-failure --name iotex \
+      <p>Replace the<strong> producerPrivKey</strong> field with your account private key and
+        <strong>externalHost</strong> with your ip address</p>
+      <h2 is-upgraded><strong>Running your node</strong></h2>
+      <p>To start your node, run the following command.</p>
+      <pre>$ docker run -d --restart on-failure --name iotex \
         -p 4689:4689 \
         -p 8080:8080 \
         -v=$IOTEX_HOME/data:/var/data:rw \
@@ -233,8 +248,9 @@ chain:
         iotex-server \
         -config-path=/etc/iotex/config_override.yaml \
         -genesis-path=/etc/iotex/genesis.yaml</pre>
-<p>If you would like to run your node as a gateway: allow your node to process API requests from other users, use this command instead.</p>
-<pre>docker run -d --restart on-failure --name iotex \
+      <p>If you would like to run your node as a gateway: allow your node to process API requests from other users, use
+        this command instead.</p>
+      <pre>docker run -d --restart on-failure --name iotex \
         -p 4689:4689 \
         -p 14014:14014 \
         -p 8080:8080 \
@@ -249,20 +265,21 @@ chain:
         -plugin=gateway</pre>
 
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="Operating your node" duration="2">
-        <p>You can verify that your node is working by fetching the logs of the container</p>
-<pre>$ docker logs iotex</pre>
-<p>The logs can be filtered using </p>
-<pre>$ docker logs -f --tail 100 iotex |grep --color -E &#34;epoch|height|error|rolldposctx&#34;</pre>
-<p>If you started your node as a gateway, you should be able to connect to it as an endpoint and query the consensus delegates </p>
-<pre>$ ioctl config set endpoint localhost:14014
+    </google-codelab-step>
+
+    <google-codelab-step label="Operating your node" duration="2">
+      <p>You can verify that your node is working by fetching the logs of the container</p>
+      <pre>$ docker logs iotex</pre>
+      <p>The logs can be filtered using </p>
+      <pre>$ docker logs -f --tail 100 iotex |grep --color -E &#34;epoch|height|error|rolldposctx&#34;</pre>
+      <p>If you started your node as a gateway, you should be able to connect to it as an endpoint and query the
+        consensus delegates </p>
+      <pre>$ ioctl config set endpoint localhost:14014
 $ ioctl node delegate</pre>
 
 
-      </google-codelab-step>
-    
+    </google-codelab-step>
+
   </google-codelab>
 
   <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
@@ -271,4 +288,5 @@ $ ioctl node delegate</pre>
   <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
 
 </body>
+
 </html>

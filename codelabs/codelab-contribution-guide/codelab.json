@@ -1,0 +1,25 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2019-07-24T18:41:27Z",
+  "id": "codelab-contribution-guide",
+  "duration": 11,
+  "title": "Codelab Contribution Guide",
+  "authors": "IoTeX Foundation",
+  "summary": "This codelab serves as a guide on how to contribute your own IoTeX-related codelab.",
+  "source": "157v55BcortUC8fZBy_yLzaCHDnnYAoJMMpysVH6IKbk",
+  "theme": "misc",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "misc"
+  ],
+  "tags": [
+    "web"
+  ],
+  "feedback": "https://github.com/iotexproject/codelabs/issues",
+  "url": "codelab-contribution-guide"
+}

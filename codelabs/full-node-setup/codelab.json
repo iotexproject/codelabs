@@ -3,21 +3,24 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
-  "updated": "2019-07-23T21:58:13Z",
+  "updated": "2019-07-24T18:50:33Z",
   "id": "full-node-setup",
   "duration": 19,
   "title": "Setting up a full node",
   "authors": "IoTeX Foundation",
-  "summary": "This codelab serves as a comprehensive step-by-step guide on how to set up a full node for delegates on either IoTeX Mainnet alpha or Testnet.",
+  "summary": "Full node setup guide",
   "source": "1xWMRJbpGexeSQe45shI8Pco7j3gMi5hL9N2c5vXlkG4",
-  "theme": "node",
+  "theme": "blockchain",
   "status": [
     "published"
   ],
   "category": [
-    "node"
+    "blockchain"
   ],
-  "tags": [],
+  "tags": [
+    "web"
+  ],
   "feedback": "https://github.com/iotexproject/codelabs/issues",
+  "ga": "...",
   "url": "full-node-setup"
 }

@@ -3,7 +3,7 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
-  "updated": "2019-07-23T21:57:43Z",
+  "updated": "2019-07-24T18:49:20Z",
   "id": "deploy-smart-contract",
   "duration": 28,
   "title": "Deploying a simple smart contract",
@@ -17,7 +17,9 @@
   "category": [
     "smart-contract"
   ],
-  "tags": [],
+  "tags": [
+    "web"
+  ],
   "feedback": "https://github.com/iotexproject/codelabs/issues",
   "url": "deploy-smart-contract"
 }

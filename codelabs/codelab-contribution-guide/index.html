@@ -1,0 +1,160 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Codelab Contribution Guide</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="codelab-contribution-guide"
+                  title="Codelab Contribution Guide"
+                  environment="web"
+                  feedback-link="https://github.com/iotexproject/codelabs/issues">
+    
+      <google-codelab-step label="Overview" duration="0">
+        <p><strong>Last Updated:</strong> 2019-07-24</p>
+<p>This codelab serves a guide on how to contribute your own IoTeX product related codelab. </p>
+<h2 is-upgraded><strong>What is codelab?</strong></h2>
+<p>Codelabs are hands-on interactive coding tutorials developed by Google. Claat (Codelabs As A Thing), the tool used to build them, is open-sourced, and as such, anyone can create their own codelab and contribute to the community!</p>
+<h2 class="checklist" is-upgraded><strong>What you&#39;ll learn</strong></h2>
+<ul class="checklist">
+<li>How to install Google Codelab tools</li>
+<li>How to format a code lab</li>
+<li>How to export codelabs</li>
+<li>How to apply iotex theme</li>
+</ul>
+<h2 is-upgraded><strong>What you&#39;ll need</strong></h2>
+<ul>
+<li>Computer</li>
+<li>Google account (preferred)</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Getting started" duration="4">
+        <h3 is-upgraded>I<strong>nstall claat</strong></h3>
+<p>Follow the instructions provided by Google <a href="https://github.com/googlecodelabs/tools/blob/master/claat/README.md" target="_blank">here</a>.</p>
+<p>If you are on mac, the easiest installation is through golang:</p>
+<pre>$ brew install go
+$ go get -u -v -x github.com/googlecodelabs/tools/claat</pre>
+<p>Setup environment variables:</p>
+<pre>$ export GOPATH=$HOME/Go
+$ export GOROOT=/usr/local/opt/go/libexec
+$ export PATH=$PATH:$GOPATH/bin
+$ export PATH=$PATH:$GOROOT/bin</pre>
+<p>Verify installation:</p>
+<pre>$ claat -h</pre>
+<h3 is-upgraded><strong>Fork codelabs repository</strong></h3>
+<p>Codelab contributions will be added through pull requests. Create a fork of the <a href="https://github.com/iotexproject/codelabs" target="_blank">codelabs repository</a> and add a branch of your choice. This <a href="https://gist.github.com/Chaser324/ce0505fbed06b947d962" target="_blank">guide</a> about open-source contributions may be helpful.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Writing your codelab" duration="3">
+        <h3 is-upgraded><strong>Choice of format</strong></h3>
+<p>There are two methods of formatting codelabs:</p>
+<ol type="1" start="1">
+<li>Google Docs: <a href="https://github.com/googlecodelabs/tools/blob/master/FORMAT-GUIDE.md" target="_blank">format</a>, <a href="https://docs.google.com/document/d/1E6XMcdTexh5O8JwGy42SY3Ehzi8gOfUGiqTiUX6N04o/edit" target="_blank">example</a></li>
+<li>Markdown files: <a href="https://github.com/googlecodelabs/tools/tree/master/claat/parser/md" target="_blank">format</a></li>
+</ol>
+<p>Google Docs is recommended, as it offers easy methods of previewing your work, however both work as intended. Follow the syntax and formatting conventions outlined by their respective format documents. </p>
+<h3 is-upgraded><strong>Codelab Metadata</strong></h3>
+<p>The codelab metadata consists of a summary, url, category, environment, status, feedback link, and analytics account.</p>
+<p>You can set each of these fields to whatever you want, however for category, environment, and status, url, please adhere to the standards outlined below:</p>
+<ul>
+<li><strong>Category</strong>: You can choose one of five categories: blockchain, smart-contract, iot, web, misc</li>
+<li><strong>Environment</strong>: Please set environment to <strong>Web</strong></li>
+<li><strong>Status</strong>: Please set to <strong>Published</strong></li>
+<li><strong>Url: </strong>Please make sure your url is not already taken. Taken urls are shown in the codelabs folder of your forked branch. (For example, deploy-smart-contract and full-node-setup are taken)</li>
+</ul>
+<p>For example (Google docs): </p>
+<p class="image-container"><img style="width: 624.00px" src="img/f7e1a6180ac54aa2.png"></p>
+<aside class="warning"><p><strong>Important</strong>: Please adhere to these categories </p>
+</aside>
+<h3 is-upgraded><strong>Previewing your codelab</strong></h3>
+<p>WIth Google Docs, there are two ways of previewing your codelab:</p>
+<ul>
+<li>Install <a href="https://chrome.google.com/webstore/detail/preview-codelab/lhojjnijnkiglhkggagbapfonpdlinji" target="_blank">Chrome extension</a> and click the extension&#39;s button while you&#39;re in your codelab Google Doc tab<br></li>
+<li>Navigate manually to <a href="https://codelabs-preview.appspot.com/?file_id=%5Bgoogle-doc-id%5D" target="_blank"><strong>https://codelabs-preview.appspot.com/?file_id=[google-doc-id]</strong></a>. (Your docid is the long string near the end of the URL, right after docs.google.com/document/d/)<br></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Exporting your codelab" duration="2">
+        <p>Navigate to your fork&#39;s branch&#39;s codelabs directory:</p>
+<pre>$ cd codelabs</pre>
+<p>Next, use claat to build your Google Doc or Markdown file.</p>
+<p><strong>Google Doc</strong>:</p>
+<pre>$ claat export docid</pre>
+<p>Your docid is the long string near the end of the URL (right after docs.google.com/document/d/)</p>
+<p><strong>Markdown file</strong>:</p>
+<pre>$ claat export file-name.md</pre>
+<aside class="warning"><p><strong>Important</strong>: Make sure your metadata <code>status</code> is set to published or else it will not export fully</p>
+</aside>
+<p>You should see a folder created titled the metadata url that you defined in the source file. Within that folder is the static html website and json file containing metadata generated by claat.</p>
+<p>To preview your codelab, call claat serve:</p>
+<pre>$ claat serve</pre>
+<p>This will create a local server to host your static website.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Applying theme" duration="2">
+        <p>The claat generated static html website uses Google&#39;s codelab theme, however in IoTeX Codelabs, we use a custom theme that adheres to IoTeX colors. </p>
+<p>To change to the IoTeX theme colors, open the static html file in the code editor of your choice</p>
+<p>You should see something like this:</p>
+<h3 is-upgraded><a href="https://github.com/iotexproject/codelabs/blob/master/codelabs/deploy-smart-contract/index.html" target="_blank">View Example</a></h3>
+<pre><code>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+ &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes&#34;&gt;
+ &lt;meta name=&#34;theme-color&#34; content=&#34;#4F7DC9&#34;&gt;
+ &lt;meta charset=&#34;UTF-8&#34;&gt;
+ &lt;title&gt;Setting up a full node&lt;/title&gt;
+ &lt;link rel=&#34;stylesheet&#34; href=&#34;//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono&#34;&gt;
+ &lt;link rel=&#34;stylesheet&#34; href=&#34;//fonts.googleapis.com/icon?family=Material+Icons&#34;&gt;
+ &lt;link rel=&#34;stylesheet&#34; href=&#34;https://storage.googleapis.com/codelab-elements/codelab-elements.css&#34;&gt;
+...</code></pre>
+<p>Replace the Google stylesheet link with the IoTeX stylesheet link:</p>
+<p>Original: </p>
+<pre><code>&lt;link rel=&#34;stylesheet&#34; href=&#34;https://storage.googleapis.com/codelab-elements/codelab-elements.css&#34;&gt;</code></pre>
+<p>New:</p>
+<pre><code>&lt;link rel=&#34;stylesheet&#34; href=&#34;../style/codelab-elements.css&#34;&gt;</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Final Steps" duration="0">
+        <p>Push your new files to your forked branch and create a pull request. We will review your pull request soon! </p>
+<p>Thank you for contributing!</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>

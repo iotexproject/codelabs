@@ -145,7 +145,7 @@ $color-weave-green: #0f9d58;
   $color-iotex-green, 'cloud-datalab.svg');
 @include codelab-card(['cloud-iam'],
   $color-iotex-green, 'cloud-iam.svg');
-@include codelab-card(['cloud-iot', 'cloud-iot-core', 'iot-core', 'iot'],
+@include codelab-card(['cloud-iot', 'cloud-iot-core', 'iot-core'],
   $color-iotex-green, 'cloud-iot-core.svg');
 @include codelab-card(['cloud-key-management-service', 'cloud-kms'],
   $color-iotex-green, 'cloud-key-management-service.svg');
@@ -199,8 +199,8 @@ $color-weave-green: #0f9d58;
 @include codelab-card(['wear', 'wear-os'],
   $color-iotex-green, 'wear-os.svg');
 
-@include codelab-card(['web', 'code', 'smart-contract'],
+@include codelab-card(['misc', 'web', 'iot', 'smart-contract'],
   $color-iotex-green, 'web.svg');
 
-@include codelab-card(['node'],
+@include codelab-card(['blockchain'],
   $color-iotex-green, 'node.svg');

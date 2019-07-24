@@ -15,7 +15,7 @@
  */
 
 @mixin md-font-base() {
-  font-family: 'Roboto', 'Noto', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, 'Roboto', Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -67,7 +67,7 @@
   @include md-font-base();
   font-size: 45px;
   font-weight: 400;
-  letter-spacing: -.018em;
+  letter-spacing: -.014em;
   line-height: 48px;
 }
 

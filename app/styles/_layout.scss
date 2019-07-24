@@ -62,7 +62,9 @@ $largeKeyline: 72px;
 .layout.vertical,
 .layout.vertical-reverse {
   display: flex;
+  justify-content: space-between;
 }
+
 .layout.horizontal {
   flex-direction: row;
 }
@@ -70,72 +72,91 @@ $largeKeyline: 72px;
 .layout.vertical {
   flex-direction: column;
 }
+
 .layout.wrap {
   flex-wrap: wrap;
 }
+
 .flex,
 .flex-1 {
   -ms-flex: 1;
   -webkit-flex: 1;
   flex: 1;
 }
+
 /* alignment in cross axis */
 .layout.start {
   align-items: flex-start;
 }
+
 .layout.center,
 .layout.center-center {
   align-items: center;
 }
+
 .layout.end {
   align-items: flex-end;
 }
+
 /* alignment in main axis */
 .layout.start-justified {
   justify-content: flex-start;
 }
+
 .layout.center-justified,
 .layout.center-center {
   justify-content: center;
 }
+
 .layout.end-justified {
   justify-content: flex-end;
 }
+
 .layout.around-justified {
   justify-content: space-around;
 }
+
 .layout.justified {
   justify-content: space-between;
 }
+
 /* self alignment */
 .self-start {
   align-self: flex-start;
 }
+
 .self-center {
   align-self: center;
 }
+
 .self-end {
   align-self: flex-end;
 }
+
 .self-stretch {
   align-self: stretch;
 }
+
 /*******************************
           Other Layout
 *******************************/
 .block {
   display: block;
 }
+
 /* IE 10 support for HTML5 hidden attr */
 [hidden] {
   display: none !important;
 }
+
 .invisible {
   visibility: hidden !important;
 }
+
 .relative {
   position: relative;
 }
+
 .fit {
   position: absolute;
   top: 0;
@@ -143,10 +164,12 @@ $largeKeyline: 72px;
   bottom: 0;
   left: 0;
 }
+
 body.fullbleed {
   margin: 0;
   height: 100vh;
 }
+
 .scroll {
   -webkit-overflow-scrolling: touch;
   overflow: auto;

@@ -20,7 +20,7 @@
   display: flex;
   align-items: center;
   height: $keyline * 8;
-  background-color: #333333;
+  background-color: #011627;
   color: #fff;
   padding: $keyline * 2;
 
@@ -48,6 +48,7 @@
 
 #searchbar {
   border-radius: $radius;
+  margin-left: auto;
 
   paper-input-container {
     padding: 0;
@@ -79,7 +80,7 @@ svg {
     background-color: #66666670;
     // opacity: 0.5;
     transition: background-color 400ms cubic-bezier(0, 0, 0.2, 1);
-    width: 100%;
+    width: 20%;
 
     &:hover {
       background-color: #66666674;

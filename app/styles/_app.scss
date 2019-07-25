@@ -190,7 +190,7 @@ li {
 
 @media (max-width: $phone-breakpoint-max) {
   #banner {
-    padding: $keyline * 2 0;
+    padding: $keyline * 3;
     line-height: 16px;
 
     paper-button {
@@ -245,7 +245,7 @@ li {
 @media (min-width: $tablet-breakpoint-min) {
   #banner {
     paper-button {
-      margin-bottom: $keyline * 2;
+      margin-bottom: $keyline * 3;
     }
 
     .banner-title {

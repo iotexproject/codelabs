@@ -37,8 +37,9 @@ $card-col-height: 200px; // column mode
   background-color: #fff;
   max-width: $card-width;
   border-radius: $radius;
-  box-shadow: 0 1px rgba(0,0,0,0.15);
+  box-shadow: 0 1px rgba(0, 0, 0, 0.15);
   border-bottom: 2px solid transparent;
+  animation: fadein 1.5s cubic-bezier(0.23, 1, 0.320, 1);
 
   &:nth-of-type(3n) {
     margin-right: 0;
@@ -82,6 +83,7 @@ $card-col-height: 200px; // column mode
     flex: 1 0 auto;
     color: #212121;
     -webkit-font-smoothing: antialiased;
+    font-weight: 400;
   }
 }
 
@@ -116,6 +118,16 @@ $card-col-height: 200px; // column mode
   height: 20px;
   background-repeat: no-repeat;
   background-image: url('data:image/svg+xml;utf8,<svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M0 0h18v18H0"/><path fill="#888" d="M13 4V2H5v2h1v5l-1.5 1.5V12H8v4l1 1 1-1v-4h3.5v-1.5L12 9V4"/></g></svg>');
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 /* ***** Responsive ***** */

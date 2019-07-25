@@ -37,7 +37,7 @@
 @mixin md-font-subhead() {
   @include md-font-base();
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 300;
   line-height: 24px;
 }
 
@@ -66,8 +66,8 @@
 @mixin md-font-display2() {
   @include md-font-base();
   font-size: 45px;
-  font-weight: 400;
-  letter-spacing: -.014em;
+  font-weight: 300;
+  letter-spacing: -.01em;
   line-height: 48px;
 }
 

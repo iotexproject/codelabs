@@ -1,5 +1,5 @@
 # codelabs
-[**Codelabs for developers, contributors and technologists.**](codelabs.iotex.io)  
+[**Codelabs for developers, contributors and technologists.**](https://codelabs.iotex.io)  
 
 Codelabs provide a guided, tutorial, hands-on coding experience for IoTeX developers. Most codelabs will step you through the process of building a small application, or adding a new feature to an existing application. They cover a wide range of topics such as Node Operation, Smart Contracts, dApps, and more. 
 

@@ -1,0 +1,25 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2019-08-14T06:03:32Z",
+  "id": "rps",
+  "duration": 24,
+  "title": "Building a rock-paper-scissors DApp",
+  "authors": "IoTeX Foundation",
+  "summary": "In this codelab, we will build a fully functional rock-paper-scissors dapp bot that runs on the IoTeX blockchain",
+  "source": "1wbW9iBvT_DFezuoc_5J95-uXX2DVqwEkfYUuFqtVriU",
+  "theme": "blockchain",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "blockchain"
+  ],
+  "tags": [
+    "web"
+  ],
+  "feedback": "https://github.com/iotexproject/codelabs/issues",
+  "url": "rps"
+}

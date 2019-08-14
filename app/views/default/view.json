@@ -1,6 +1,6 @@
 {
   "title": "IoTeX Codelabs",
-  "description": "Codelabs provide a guided, tutorial, hands-on coding experience. Most codelabs will step you through the process of building a small application, or adding a new feature to an existing application.",
+  "description": "Codelabs provide a guided, tutorial, hands-on coding experience for IoTeX developers. Most codelabs will step you through the process of building a small application, or adding a new feature to an existing application. They cover a wide range of topics such as Node Operation, Smart Contracts, dApps, and more.",
   "tags": [],
   "categories": [],
   "exclude": [

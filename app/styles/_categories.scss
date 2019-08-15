@@ -199,8 +199,13 @@ $color-weave-green: #0f9d58;
 @include codelab-card(['wear', 'wear-os'],
   $color-iotex-green, 'wear-os.svg');
 
-@include codelab-card(['misc', 'web', 'iot', 'smart-contract'],
-  $color-iotex-green, 'web.svg');
+@include codelab-card(['misc', 'web', 'iot'],
+  $color-google-yellow, 'misc.svg');
+
+@include codelab-card(['smart-contract'],
+  $color-google-blue, 'smart-contract.svg');
+
+
 
 @include codelab-card(['blockchain'],
   $color-iotex-green, 'cloud-sql.svg');

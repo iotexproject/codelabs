@@ -47,7 +47,7 @@
       <h2 is-upgraded><strong>What you&#39;ll need</strong></h2>
       <ul>
         <li>Computer</li>
-        <li>Nodejs/npm installed (guide)</li>
+        <li>Nodejs/npm installed (<a href="https://github.com/nvm-sh/nvm" target="_blank">guide with nvm</a>)</li>
         <li>An iotex account</li>
         <li>1 IOTX Preferably </li>
       </ul>
@@ -119,7 +119,7 @@ $ mkdir contracts</pre>
         <p><strong>Note</strong>: This codelab assumes you have a working understanding of Solidity</p>
       </aside>
       <p>Create a new file called <code>rps.sol</code> and open it in the editor of your choice</p>
-      <p>Here is the entire finished backend smart contract as reference (I will go through each portion individually):
+      <p>Here is the entire finished backend smart contract as reference (We will go through each portion individually):
       </p>
       <h3 is-upgraded><a href="https://github.com/iotexproject/codelabs/blob/master/code/rps/rps.sol"
           target="_blank"><strong>View code</strong></a></h3>
@@ -277,7 +277,7 @@ string public lastResult; // result of last game</code></pre>
       <p>We also define some enumerables to help us more easily distinguish between different results and hands.</p>
       <pre><code>enum hand {ROCK, PAPER, SCISSORS}
 enum result {WIN, LOSE, TIE}</code></pre>
-      <p>In the constructor, we instantiate these global variables to be basic variables. Making our constructor
+      <p>In the constructor, we instantiate these global variables to our starting values. Making our constructor
         <code>payable</code> allows the contract deployer to add to the bot&#39;s balance on deployment. As such,
         <code>balance</code> is set to <code>msg.value</code>.</p>
       <pre><code>constructor() public payable{
@@ -286,8 +286,8 @@ enum result {WIN, LOSE, TIE}</code></pre>
    gamesPlayed = 0;
    lastResult = &#34;&#34;;
  }</code></pre>
-      <p>In order for our bot to be operable, we need to add some functions that allow us to add balance to the bot and
-        withdraw our earnings.</p>
+      <p>In order for our bot to be profitable, we need to add some functions that allow us to add balance to the bot
+        and withdraw our earnings.</p>
       <p>We define them through <code>giveBalance</code> and <code>withdraw</code>:</p>
       <pre><code>// Give balance to bot
  function giveBalance() public payable{
@@ -339,7 +339,7 @@ require(msg.value &gt;= 1, &#34;Bet 1 IOTX&#34;);</code></pre>
    }
  }
 </code></pre>
-      <p>I&#39;m using a hash of block timestamp as a random number generator.. Note that block timestamp is not the
+      <p>I&#39;m using a hash of block timestamp as a random number generator. Note that block timestamp is not the
         safest RNG, as it can be manipulated.</p>
       <p>After getting the player&#39;s hand and the bot&#39;s hand, <code>determineWin(botHand,
           playerHand)</code>returns a result enum with the result of the game. </p>
@@ -410,8 +410,8 @@ require(msg.value &gt;= 1, &#34;Bet 1 IOTX&#34;);</code></pre>
       <p>Make sure you have enough IOTX to do so (around 1.5) and have set the gas limit high enough. If the deployment
         fails, increase the gas limit.</p>
       <aside class="warning">
-        <p>Note: if you are unfamiliar with deploying smart contracts, please refer to <a href="http://deploying.com"
-            target="_blank">deploying a simple smart contract</a></p>
+        <p><strong>Note</strong>: if you are unfamiliar with deploying smart contracts, please refer to <a
+            href="http://deploying.com" target="_blank">deploying a simple smart contract</a></p>
       </aside>
 
 
@@ -421,7 +421,7 @@ require(msg.value &gt;= 1, &#34;Bet 1 IOTX&#34;);</code></pre>
       <p>I used React to build my frontend, however you can use any framework or just javascript to do so. Here is the
         full code for <code>App.js</code> (code explanation below):</p>
       <aside class="warning">
-        <p>Important: replace all instances of address with your address</p>
+        <p><strong>Important</strong>: replace all instances of <code>abi</code> with your own contract abi</p>
       </aside>
       <h3 is-upgraded><a href="https://github.com/iotexproject/codelabs/blob/master/code/rps/App.js"
           target="_blank"><strong>View code</strong></a></h3>
@@ -469,14 +469,14 @@ class App extends React.Component {
  async updateState() {
    let balance = await this.contract.methods.balance(
      {
-       account: { address: &#34;io13gy4fnm4yl3aqgs42huw589u2zx70pk5yt58h5&#34; },
+       account: { address: this.antenna.iotx.accounts[0] },
        gasLimit: &#34;300000&#34;,
        gasPrice: &#34;1000000000000&#34;
      }
    );
    let games = await this.contract.methods.gamesPlayed(
      {
-       account: { address: &#34;io13gy4fnm4yl3aqgs42huw589u2zx70pk5yt58h5&#34; },
+       account: { address: this.antenna.iotx.accounts[0] },
        gasLimit: &#34;300000&#34;,
        gasPrice: &#34;1000000000000&#34;
      }
@@ -488,20 +488,27 @@ class App extends React.Component {
  }
 
  async betHand(hand) {
-   await sleep(5000);
+   let blockHeight = (await this.antenna.iotx.getChainMeta()).chainMeta.height;
+   while (true) {
+     let newBlockHeight = (await this.antenna.iotx.getChainMeta()).chainMeta.height;
+     if (newBlockHeight &gt; blockHeight) {
+       break;
+     }
+     await sleep(1000);
+   }
    this.setState({
      result: &#34;Please approve transaction&#34;
    });
    await this.contract.methods.bet(hand,
      {
        amount: toRau(1, &#34;IOTX&#34;),
-       account: { address: &#34;io13gy4fnm4yl3aqgs42huw589u2zx70pk5yt58h5&#34; },
+       account: { address: this.antenna.iotx.accounts[0] },
        gasLimit: &#34;300000&#34;,
        gasPrice: &#34;1000000000000&#34;
      });
    let result = await this.contract.methods.lastResult(
      {
-       account: { address: &#34;io13gy4fnm4yl3aqgs42huw589u2zx70pk5yt58h5&#34; },
+       account: { address: this.antenna.iotx.accounts[0] },
        gasLimit: &#34;300000&#34;,
        gasPrice: &#34;1000000000000&#34;
      }
@@ -552,7 +559,7 @@ class App extends React.Component {
          &lt;button className=&#34;rpsButton&#34; onClick={() =&gt; { this.showModal(); this.betHand(2); }}&gt;Scissors&lt;/button&gt;
        &lt;/ul&gt;
        &lt;Modal
-         size=&#34;large&#34;
+         size=&#34;larW&#34;
          aria-labelledby=&#34;contained-modal-title-vcenter&#34;
          centered show={this.state.showResult} onHide={() =&gt; { this.closeModal(); this.clearResult() }}&gt;
          &lt;Modal.Header closeButton&gt;
@@ -598,24 +605,28 @@ export default App;</code></pre>
      showResult: false,
      loading: true
    }</code></pre>
-      <p>When the component mounts, we update state and set an interval to call update state for us, which will update
-        our bot balance and games played every 3 seconds:</p>
+      <p>When the component mounts, we update the state and set an interval to call <code>updateState</code> for us,
+        which will update our bot balance and games played every 3 seconds:</p>
       <pre><code>componentDidMount() {
    this.updateState();
    setInterval(this.updateState.bind(this), 10e3)
- }
-
- async updateState() {
+ }</code></pre>
+      <p>In <code>updateState</code>, we update the state&#39;s <code>balance</code> and <code>games</code> variables
+        with the current values that we get from our contract. We get these values through calling the contract methods
+        for getting public variables. <code>this.antenna.iotx.accounts[0]</code> gets the address of the current user
+        signed into the desktop wallet :</p>
+      <pre><code> async updateState() {
    let balance = await this.contract.methods.balance(
      {
-       account: { address: &#34;io13gy4fnm4yl3aqgs42huw589u2zx70pk5yt58h5&#34; },
+       account: { address: this.antenna.iotx.accounts[0]
+},
        gasLimit: &#34;300000&#34;,
        gasPrice: &#34;1000000000000&#34;
      }
    );
    let games = await this.contract.methods.gamesPlayed(
      {
-       account: { address: &#34;io13gy4fnm4yl3aqgs42huw589u2zx70pk5yt58h5&#34; },
+       account: { address: this.antenna.iotx.accounts[0]},
        gasLimit: &#34;300000&#34;,
        gasPrice: &#34;1000000000000&#34;
      }
@@ -633,7 +644,7 @@ export default App;</code></pre>
 &lt;/p&gt;</code></pre>
       <p>The main functionality of the game comes through the <code>betHand</code> method.</p>
       <p>After the player selects a hand, we wait for the next block to be produced before calculating our random number
-        increase unpredictability:</p>
+        to increase unpredictability:</p>
       <pre><code>let blockHeight = (await this.antenna.iotx.getChainMeta()).chainMeta.height;
    while (true) {
      let newBlockHeight = (await this.antenna.iotx.getChainMeta()).chainMeta.height;
@@ -642,18 +653,19 @@ export default App;</code></pre>
      }
      await sleep(1000);
    }</code></pre>
-      <p>We then call the <code>bet</code> method defined in our contract and update the result in state accordingly:
-      </p>
+      <p>We then call the <code>bet</code> method defined in our contract and update the result in state accordingly.
+        The <code>bet</code> method that we defined earlier in our contract contains all the logic for operating our
+        rock paper scissors game, so that&#39;s all we need to do!:</p>
       <pre><code>await this.contract.methods.bet(hand,
      {
        amount: toRau(1, &#34;IOTX&#34;),
-       account: { address: &#34;io13gy4fnm4yl3aqgs42huw589u2zx70pk5yt58h5&#34; },
+       account: { address: this.antenna.iotx.accounts[0]},
        gasLimit: &#34;300000&#34;,
        gasPrice: &#34;1000000000000&#34;
      });
    let result = await this.contract.methods.lastResult(
      {
-       account: { address: &#34;io13gy4fnm4yl3aqgs42huw589u2zx70pk5yt58h5&#34; },
+       account: { address: this.antenna.iotx.accounts[0]},
        gasLimit: &#34;300000&#34;,
        gasPrice: &#34;1000000000000&#34;
      }
@@ -663,7 +675,7 @@ export default App;</code></pre>
      loading: false
    })
 </code></pre>
-      <p>We attach the <code>betHand</code> method to the rock, paper, scissors buttons in our <code>render</code>
+      <p>We attach the <code>betHand</code> method to the rock, paper, and scissors buttons in our <code>render</code>
         function:</p>
       <pre><code>&lt;ul&gt;
          &lt;button className=&#34;rpsButton&#34; onClick={() =&gt; { this.showModal(); this.betHand(0); }}&gt;Rock&lt;/button&gt;
@@ -798,8 +810,7 @@ body {
       <p class="image-container"><img style="width: 624.00px" src="img/cab28699064e7b8f.png"></p>
       <p>After approving, the result of your game should be shown!</p>
       <p class="image-container"><img style="width: 624.00px" src="img/b5faf962dda94fa8.png"></p>
-      <p>Congratulations, you now have a fully functional rock, paper, scissors bot! Know that this rock, paper,
-        scissors dapp is far from perfect and there are many aspects that can be improved! </p>
+      <p>Congratulations, you now have a fully functional rock, paper, scissors bot! Thanks for reading!</p>
 
 
     </google-codelab-step>

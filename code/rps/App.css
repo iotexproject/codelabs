@@ -1,13 +1,13 @@
 .rpsButton {
   padding: 40px;
-  margin-right: 5px;
-  border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
   background: none;
-  margin-top: 1.2em;
   color: white;
+  margin-top: 1.2em;
   margin-right: 1em;
+  border-color: white;
+  border-radius: 10px;
 }
 
 .rpsButton:focus {
@@ -25,7 +25,6 @@
   margin-top: 100px;
   font-weight: bold;
   position: relative;
-  /* margin: auto; */
   font-size: 3em;
 }
 
@@ -47,12 +46,10 @@
   padding: 2px;
   background: rgba(255, 255, 255, 0.151);
   border-radius: 3px;
-
 }
 
 ul {
   display: inline-block;
-
   flex-direction: row;
   margin: auto;
 }
@@ -84,8 +81,6 @@ body {
   /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #49a09d, #5f2c82);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-
   color: white;
 }
 

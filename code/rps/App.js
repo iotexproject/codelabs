@@ -42,14 +42,14 @@ class App extends React.Component {
   async updateState() {
     let balance = await this.contract.methods.balance(
       {
-        account: { address: "io13gy4fnm4yl3aqgs42huw589u2zx70pk5yt58h5" },
+        account: { address: this.antenna.iotx.accounts[0] },
         gasLimit: "300000",
         gasPrice: "1000000000000"
       }
     );
     let games = await this.contract.methods.gamesPlayed(
       {
-        account: { address: "io13gy4fnm4yl3aqgs42huw589u2zx70pk5yt58h5" },
+        account: { address: this.antenna.iotx.accounts[0] },
         gasLimit: "300000",
         gasPrice: "1000000000000"
       }
@@ -75,13 +75,13 @@ class App extends React.Component {
     await this.contract.methods.bet(hand,
       {
         amount: toRau(1, "IOTX"),
-        account: { address: "io13gy4fnm4yl3aqgs42huw589u2zx70pk5yt58h5" },
+        account: { address: this.antenna.iotx.accounts[0] },
         gasLimit: "300000",
         gasPrice: "1000000000000"
       });
     let result = await this.contract.methods.lastResult(
       {
-        account: { address: "io13gy4fnm4yl3aqgs42huw589u2zx70pk5yt58h5" },
+        account: { address: this.antenna.iotx.accounts[0] },
         gasLimit: "300000",
         gasPrice: "1000000000000"
       }

@@ -98,18 +98,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <meta name="og:site_name" property="og:site_name" content="Codelabs" />
   <meta name="og:determiner" property="og:determiner" content="the" />
   <meta name="og:locale" property="og:locale" content="en_US" />
-  <meta name="og:image" property="og:image" content="/images/meta-logo.png" />
-  <meta name="og:image:url" property="og:image:url" content="/images/meta-logo.png" />
+  <meta name="og:image" property="og:image" content="https://codelabs.iotex.io//images/meta-logo.png" />
+  <meta name="og:image:url" property="og:image:url" content="https://codelabs.iotex.io//images/meta-logo.png" />
   <meta name="og:image:type" property="og:image:type" content="image/png" />
   <meta name="og:image:width" property="og:image:width" content="1200" />
   <meta name="og:image:height" property="og:image:height" content="1200" />
   <meta name="og:image:alt" property="og:image:alt" content="Codelabs" />
 
-  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="{{view.title}}" />
   <meta name="twitter:description" content="{{view.description}}" />
-  <meta name="twitter:image" content="/images/meta-logo.png" />
-  <meta name="twitter:url" property="twitter:url" content="{{canonicalViewUrl(view)}}" />
+  <meta name="twitter:image" content="https://codelabs.iotex.io//images/meta-logo.png" />
 </head>
 
 <body id="app" is="body-bind" class="loading fullbleed {% if view.id != 'default' -%}view{%- endif -%}">
@@ -123,7 +122,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div id="searchbar">
           <paper-input-container no-label-float>
             <paper-icon-button prefix icon="search"></paper-icon-button>
-            <!-- <label>Search</label> -->
             <input is="iron-input" bind-value="{{searchVal}}" on-keydown="onSearchKeyDown">
           </paper-input-container>
         </div>
@@ -179,7 +177,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
 
         {% if view.id == 'default' %}
-        <!-- <paper-dropdown-menu label="Choose an event" class="dropdown-filter" no-label-float noink no-animations>
+        <paper-dropdown-menu label="Change language" class="dropdown-filter" no-label-float noink no-animations>
           <paper-listbox id="eventList" slot="dropdown-content" class="dropdown-content">
             {%- for view in views -%}
             {%- if view.id != 'default' && !view.hidden -%}
@@ -189,7 +187,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             {%- endif -%}
             {%- endfor %}
           </paper-listbox>
-        </paper-dropdown-menu> -->
+        </paper-dropdown-menu>
         {% endif %}
 
         {%- if showcats -%}

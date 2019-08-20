@@ -3,7 +3,8 @@
 }
 
 body.view #banner {
-  padding-top: 40px;
+  padding-top: 48px;
+  padding-bottom: 48px;
 }
 
 .banner-meta h3 {

@@ -3,7 +3,7 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
-  "updated": "2019-08-15T19:47:39Z",
+  "updated": "2019-08-20T20:02:57Z",
   "id": "rps",
   "duration": 24,
   "title": "Building a rock-paper-scissors DApp",
@@ -18,7 +18,7 @@
     "blockchain"
   ],
   "tags": [
-    "web", "chinese"
+    "web"
   ],
   "feedback": "https://github.com/iotexproject/codelabs/issues",
   "url": "rps"

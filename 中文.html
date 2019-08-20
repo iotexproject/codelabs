@@ -1,0 +1,191 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Codelabs provide a guided, tutorial, hands-on coding experience for IoTeX developers. Most codelabs will step you through the process of building a small application, or adding a new feature to an existing application. They cover a wide range of topics such as Node Operation, Smart Contracts, dApps, and more.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="IoTeX Codelabs 中文">
+  <meta name="application-name" content="IoTeX Codelabs 中文">
+  <link rel="canonical" href="https://example.com/中文/" />
+  <link rel="preconnect" href="https://www.google-analytics.com" />
+
+  <link href="https://fonts.googleapis.com/css?family=Heebo&display=swap" rel="stylesheet">
+
+
+  <script>
+    window.ga = window.ga || function () {
+      (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-49880327-14', 'auto');
+    ga('send', 'pageview'); {
+      %
+      if view.ga %
+    }
+    ga('create', '', 'auto', {
+      name: 'view'
+    });
+    ga('view.send', 'pageview'); {
+      %
+      endif %
+    }
+  </script>
+  <script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  <title>IoTeX Codelabs 中文</title>
+
+  <link rel="stylesheet" href="/styles/main.css">
+
+  
+  <link rel="stylesheet" href="/中文/style.css">
+
+  <link rel="import" href="/elements/elements.html">
+
+  <style is="custom-style">
+    :root {
+      --paper-tabs-selection-bar-color: currentcolor;
+
+      --paper-input-container-underline: {
+        display: none;
+      }
+
+      ;
+
+      --paper-input-container-underline-focus: {
+        display: none;
+      }
+
+      ;
+    }
+
+    .dropdown-filter {
+      --paper-input-container: {
+        padding: 8px;
+      }
+    }
+  </style>
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#333333">
+  <meta name="apple-mobile-web-app-title" content="IoTeX Codelabs 中文">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/images/favicons/icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#333333">
+  <meta name="msapplication-TileColor" content="#333333">
+  <meta name="msapplication-TileImage" content="/images/favicons/mstile-144x144.png">
+  <meta name="theme-color" content="#333333">
+
+  <meta name="og:type" property="og:type" content="website" />
+  <meta name="og:title" property="og:title" content="IoTeX Codelabs 中文" />
+  <meta name="og:description" property="og:description" content="Codelabs provide a guided, tutorial, hands-on coding experience for IoTeX developers. Most codelabs will step you through the process of building a small application, or adding a new feature to an existing application. They cover a wide range of topics such as Node Operation, Smart Contracts, dApps, and more." />
+  <meta name="og:url" property="og:url" content="https://example.com/中文/" />
+  <meta name="og:site_name" property="og:site_name" content="Codelabs" />
+  <meta name="og:determiner" property="og:determiner" content="the" />
+  <meta name="og:locale" property="og:locale" content="en_US" />
+  <meta name="og:image" property="og:image" content="https://codelabs.iotex.io//images/meta-logo.png" />
+  <meta name="og:image:url" property="og:image:url" content="https://codelabs.iotex.io//images/meta-logo.png" />
+  <meta name="og:image:type" property="og:image:type" content="image/png" />
+  <meta name="og:image:width" property="og:image:width" content="1200" />
+  <meta name="og:image:height" property="og:image:height" content="1200" />
+  <meta name="og:image:alt" property="og:image:alt" content="Codelabs" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="IoTeX Codelabs 中文" />
+  <meta name="twitter:description" content="Codelabs provide a guided, tutorial, hands-on coding experience for IoTeX developers. Most codelabs will step you through the process of building a small application, or adding a new feature to an existing application. They cover a wide range of topics such as Node Operation, Smart Contracts, dApps, and more." />
+  <meta name="twitter:image" content="https://codelabs.iotex.io//images/meta-logo.png" />
+</head>
+
+<body id="app" is="body-bind" class="loading fullbleed view">
+  <paper-header-panel id="main" mode="standard" main>
+    
+    <div id="mainToolbar" class="paper-header">
+      <div class="site-width layout horizontal">
+        <a href="/">
+          <img src="/images/logo.png" class="logo-devs" alt="Codelabs Logo">
+        </a>
+        <div id="searchbar">
+          <paper-input-container no-label-float>
+            <paper-icon-button prefix icon="search"></paper-icon-button>
+            <input is="iron-input" bind-value="{{searchVal}}" on-keydown="onSearchKeyDown">
+          </paper-input-container>
+        </div>
+        <a href="https://github.com/iotexproject/codelabs" id="sm-icon">
+          <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <title>GitHub icon</title>
+            <path
+              d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+          </svg>
+        </a>
+      </div>
+    </div>
+    
+
+    
+    <header id="banner" down>
+      <div class="site-width">
+        <div class="banner-description">
+            <img id="logo" src="/images/logo.png" alt="Event logo">
+            <div class="banner-meta">
+              <h3>IoTeX Codelabs 中文</h3>
+              <p>Codelabs provide a guided, tutorial, hands-on coding experience for IoTeX developers. Most codelabs will step you through the process of building a small application, or adding a new feature to an existing application. They cover a wide range of topics such as Node Operation, Smart Contracts, dApps, and more.</p>
+              
+            </div>
+          </div>
+        </div>
+    </header>
+
+    <main>
+      <div id="filters" class="site-width layout horizontal center justified">
+        <div id="sortby">
+          <paper-tabs selected="0" noink on-iron-activate="sortBy">
+            <paper-tab>A-Z</paper-tab>
+            <paper-tab>Recent</paper-tab>
+            <paper-tab>Duration</paper-tab>
+          </paper-tabs>
+        </div>
+
+        </div>
+
+      <card-sorter id="cards" class="site-width">
+        
+        
+        
+        <a href="/codelabs/codelab-contribution-guide/index.html?index=..%2F..%E4%B8%AD%E6%96%87" on-tap="navigate"
+          class="codelab-card category-misc" data-category="misc"
+          data-title="Codelab Contribution Guide" data-duration="11" data-updated="2019-08-20T19:30:05Z"
+          data-tags="chinese,web" data-pin="">
+          <div class="description">Codelab Contribution Guide</div>
+          <div class="card-duration">
+            <span>11 min </span>
+            <span>Updated Aug 20, 2019</span>
+          </div>
+          <div class="card-footer">
+            <div class="category-icon misc-icon"></div>
+            <paper-button class="misc-bg">Start</paper-button>
+          </div>
+        </a>
+        
+      </card-sorter>
+
+      <div id="loading-placeholder" class="site-width">
+        Loading Codelabs, please wait...
+      </div>
+    </main>
+  </paper-header-panel>
+
+  <script src="/scripts/main.js"></script>
+</body>
+
+</html>

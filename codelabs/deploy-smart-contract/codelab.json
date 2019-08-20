@@ -1,0 +1,25 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2019-07-24T18:49:20Z",
+  "id": "deploy-smart-contract",
+  "duration": 28,
+  "title": "Deploying a simple smart contract",
+  "authors": "IoTeX Foundation",
+  "summary": "This codelab serves as a comprehensive step-by-step guide on how to deploy a smart contract on the IoTeX network.",
+  "source": "1q4Bn-7-oA7XVvTQUuBkEYpR8XvGIDiJXSYJLlx68a-I",
+  "theme": "smart-contract",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "smart-contract"
+  ],
+  "tags": [
+    "web"
+  ],
+  "feedback": "https://github.com/iotexproject/codelabs/issues",
+  "url": "deploy-smart-contract"
+}

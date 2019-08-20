@@ -1,0 +1,25 @@
+#logo {
+  display: none;
+}
+
+body.view #banner {
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+.banner-meta h3 {
+  font-size: 45px;
+}
+
+#banner .banner-description .banner-meta h3 {
+  margin-bottom: 16px;
+}
+
+.banner-meta p {
+  margin-right: 32px;
+  line-height: 32px;
+}
+
+#banner .banner-description .banner-meta {
+  padding: 0;
+}

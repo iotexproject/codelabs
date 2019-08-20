@@ -1,0 +1,826 @@
+<!doctype html>
+
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Building a rock-paper-scissors DApp</title>
+  <link rel="stylesheet"
+    href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="../style/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid="" id="rps" title="Building a rock-paper-scissors DApp" environment="web"
+    feedback-link="https://github.com/iotexproject/codelabs/issues">
+
+    <google-codelab-step label="Overview" duration="0">
+      <p><strong>Last Updated:</strong> 2019-08-12</p>
+      <p>This codelab serves as an example of how to use the Antenna SDK in building a simple fullstack
+        rock-paper-scissors betting DApp. We will go through the process step-by-step: building the smart contract
+        backend, then building the Antenna SDK based frontend with React.</p>
+      <h2 is-upgraded><strong>Final Result</strong>:</h2>
+      <p class="image-container"><img style="width: 624.00px" src="img/3cbce5d6e54fadf.png"></p>
+      <h2 is-upgraded><strong>What is the Antenna SDK?</strong></h2>
+      <p>The Antenna SDK uses gRPC or gRPC-web connection to allow users to interact with local or remote blockchain
+        nodes. This allows you to interact with smart contracts and get data from the blockchain.</p>
+      <h2 class="checklist" is-upgraded><strong>What you&#39;ll learn</strong></h2>
+      <ul class="checklist">
+        <li>How to make a RPS smart contract as backend</li>
+        <li>How to use Antenna SDK as frontend</li>
+        <li>How to link the two pieces to form a fully functional app</li>
+        <li>How to use IoTeX Desktop Wallet</li>
+      </ul>
+      <h2 is-upgraded><strong>What you&#39;ll need</strong></h2>
+      <ul>
+        <li>Computer</li>
+        <li>Nodejs/npm installed (<a href="https://github.com/nvm-sh/nvm" target="_blank">guide with nvm</a>)</li>
+        <li>An iotex account</li>
+        <li>1 IOTX Preferably </li>
+      </ul>
+      <aside class="special">
+        <p>New to smart contracts? Check out <a
+            href="https://codelabs.iotex.io/codelabs/deploy-smart-contract/index.html?index=..%2F..index#0"
+            target="_blank">deploying a simple smart contract</a> first!</p>
+      </aside>
+      <aside class="warning">
+        <p><strong>Note</strong>: This tutorial works on both mainnet and testnet. If you don&#39;t have any IOTX, you
+          can deploy to testnet and get test IOTX from our <a href="https://member.iotex.io/faucet/"
+            target="_blank">faucet</a></p>
+      </aside>
+
+
+    </google-codelab-step>
+
+    <google-codelab-step label="Planning" duration="3">
+      <h2 is-upgraded>Defining our bot</h2>
+      <p>To begin, let&#39;s think about how our bot will function. Our bot will play rock-paper-scissors against other
+        players for us. The user will bet 1 IOTX to play against the bot and choose a hand: rock, paper, or scissors.
+        The bot will then generate a random hand and the result of the game will be calculated. </p>
+      <p>Here are the different outcomes</p>
+      <ul>
+        <li>Tie: Bot sends 1 IOTX back to player</li>
+        <li>Win: Bot sends 2 IOTX to player</li>
+        <li>Lose: Bot sends 0 IOTX to player</li>
+      </ul>
+      <p>Now that we have a working idea for our bot, let&#39;s begin!</p>
+
+
+    </google-codelab-step>
+
+    <google-codelab-step label="Getting Started" duration="3">
+      <h2 is-upgraded>React Setup</h2>
+      <p>Since we will be building our DApp using React, we will be using Create-React-App to bootstrap our DApp. We
+        will call our project rps (rock-paper-scissors).</p>
+      <aside class="warning">
+        <p><strong>Note</strong>: If you aren&#39;t familiar with React, you will still be able to follow along with the
+          tutorial. You can understand the basics and still use the code. The frontend can be built with any framework
+          you prefer, however I chose React for this demo!</p>
+      </aside>
+      <pre>$ npx create-react-app rps</pre>
+      <p>Create-React-App automatically configures webpack and babel for us for ease of development!</p>
+      <p>Now create a folder to house our smart contracts:</p>
+      <pre>$ cd rps
+$ mkdir contracts</pre>
+      <h2 is-upgraded>Install node modules</h2>
+      <p>We will be using iotex-antenna sdk to interact with our deployed smart contract. </p>
+      <p>Inside our rps folder:</p>
+      <pre>$ npm install iotex-antenna</pre>
+      <p>Install sleep-promise (which we will use to wait for the next block):</p>
+      <pre>$ npm install sleep-promise</pre>
+      <p>Install react-bootstrap (which we will use to easily beautify our dapp):</p>
+      <pre>$ npm install react-bootstrap bootstrap</pre>
+      <h2 is-upgraded>Installing IoPay-Desktop</h2>
+      <p>We will use IoPay-Desktop to handle the account authorization when we interact with our rock-paper-scissors
+        smart contract.</p>
+      <p>Download IoPay-Desktop <a href="https://github.com/iotexproject/iotex-explorer/releases"
+          target="_blank">here</a></p>
+
+
+    </google-codelab-step>
+
+    <google-codelab-step label="Writing our smart contract" duration="3">
+      <p>To begin, we must create the backend for our rock paper scissors game. This will be in the form of a smart
+        contract running on the blockchain. </p>
+      <aside class="warning">
+        <p><strong>Note</strong>: This codelab assumes you have a working understanding of Solidity</p>
+      </aside>
+      <p>Create a new file called <code>rps.sol</code> and open it in the editor of your choice</p>
+      <p>Here is the entire finished backend smart contract as reference (We will go through each portion individually):
+      </p>
+      <h3 is-upgraded><a href="https://github.com/iotexproject/codelabs/blob/master/code/rps/rps.sol"
+          target="_blank"><strong>View code</strong></a></h3>
+      <pre><code>pragma solidity 0.5.10;
+
+contract rps {
+ address public owner;
+ uint256 public balance;
+ uint256 public gamesPlayed;
+ string public lastResult;
+
+ enum hand {ROCK, PAPER, SCISSORS}
+ enum result {WIN, LOSE, TIE}
+
+ constructor() public payable{
+   owner = msg.sender;
+   balance = msg.value;
+   gamesPlayed = 0;
+   lastResult = &#34;&#34;;
+ }
+
+ // Give balance to bot
+ function giveBalance() public payable{
+   if (msg.sender == owner) {
+     balance += msg.value;
+   }
+ }
+
+ // Withdraw from bot
+ function withdraw(uint256 amount) public {
+   require(balance &gt;= amount, &#34;Balance too low&#34;);
+   if (msg.sender == owner) {
+     msg.sender.transfer(amount);
+     balance -= amount;
+   }
+ }
+
+ // Bet choice
+ function bet(uint256 choice) public payable{
+   require(choice &gt;= 0 &amp;&amp; choice &lt;= 2, &#34;Choose a valid rps&#34;);
+   require(balance &gt;= 1, &#34;Bot balance too low&#34;);
+   require(msg.value &gt;= 1, &#34;Bet 1 IOTX&#34;);
+   balance += msg.value;
+   hand playerHand = convertHand(choice);
+   hand botHand = generateHand();
+   result res = determineWin(botHand, playerHand);
+   setLastResult(res);
+   distReward(res);
+ }
+
+ //Return result in string form
+ function resultToString(result res) public pure returns(string memory) {
+   if (res == result.WIN) {
+     return &#34;You won! :) 2 IOTX returned!&#34;;
+   }
+   if (res == result.LOSE) {
+     return &#34;You lose :( 0 IOTX for you&#34;;
+   }
+   if (res == result.TIE) {
+     return &#34;You tied! :O 1 IOTX returned!&#34;;
+   }
+   return &#34;&#34;;
+ }
+
+ // Convert int to hand
+ function convertHand(uint256 choice) public pure returns(hand){
+   if (choice == 0) {
+     return hand.ROCK;
+   }
+   if (choice == 1) {
+     return hand.PAPER;
+   }
+   if (choice == 2) {
+     return hand.SCISSORS;
+   }
+ }
+ // Get a random hand
+ function generateHand() public view returns(hand){
+   // uint8 rand = uint8(uint256(keccak256(block.timestamp))%3 + 1);
+   uint rand = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender))) % 3;
+   if (rand == 0) {
+     return hand.ROCK;
+   }
+   if (rand == 1) {
+     return hand.PAPER;
+   }
+   if (rand == 2) {
+     return hand.SCISSORS;
+   }
+ }
+
+ // Emit outcome based on result for js display result
+ function setLastResult(result res) public {
+   if (res == result.TIE) {
+     lastResult = resultToString(res);
+   }
+   if (res == result.WIN) {
+     lastResult = resultToString(res);
+   }
+   if (res == result.LOSE) {
+     lastResult = resultToString(res);
+   }
+ }
+
+ // Determine winning
+ function determineWin(hand bot,hand player) public pure returns(result) {
+   // Check tie
+   if (bot == player) {
+     return result.TIE;
+   }
+   // Check win/lose
+   if (bot == hand.ROCK) {
+     if (player == hand.PAPER) {
+       return result.WIN;
+     } else {
+       return result.LOSE;
+     }
+   }
+   if (bot == hand.PAPER) {
+     if (player == hand.SCISSORS) {
+       return result.WIN;
+     } else {
+       return result.LOSE;
+     }
+   }
+   if (bot == hand.SCISSORS) {
+     if (player == hand.ROCK) {
+       return result.WIN;
+     } else {
+       return result.LOSE;
+     }
+   }
+ }
+
+ // Give off rewards based on result
+ function distReward(result res) public {
+   if (res == result.WIN) {
+     msg.sender.transfer(2*10**18);
+     balance -= 2*10**18;
+   } else if (res == result.TIE) {
+     msg.sender.transfer(10**18);
+     balance -= 10**18;
+   }
+   gamesPlayed++;
+ }
+}
+</code></pre>
+      <p>For our rps contract, we must create some global variables that will be needed to track our bot&#39;s progress
+        and the frontend. For this example, we will keep track of the bot&#39;s balance, gamesplayed, owner, and last
+        game result.</p>
+      <pre><code>address public owner; // ioaddress of contract deployer
+uint256 public balance; // balance of bot in RAU
+uint256 public gamesPlayed; // # of games played
+string public lastResult; // result of last game</code></pre>
+      <p>We also define some enumerables to help us more easily distinguish between different results and hands.</p>
+      <pre><code>enum hand {ROCK, PAPER, SCISSORS}
+enum result {WIN, LOSE, TIE}</code></pre>
+      <p>In the constructor, we instantiate these global variables to our starting values. Making our constructor
+        <code>payable</code> allows the contract deployer to add to the bot&#39;s balance on deployment. As such,
+        <code>balance</code> is set to <code>msg.value</code>.</p>
+      <pre><code>constructor() public payable{
+   owner = msg.sender;
+   balance = msg.value;
+   gamesPlayed = 0;
+   lastResult = &#34;&#34;;
+ }</code></pre>
+      <p>In order for our bot to be profitable, we need to add some functions that allow us to add balance to the bot
+        and withdraw our earnings.</p>
+      <p>We define them through <code>giveBalance</code> and <code>withdraw</code>:</p>
+      <pre><code>// Give balance to bot
+ function giveBalance() public payable{
+   if (msg.sender == owner) {
+     balance += msg.value;
+   }
+ }
+
+ // Withdraw from bot
+ function withdraw(uint256 amount) public {
+   require(balance &gt;= amount, &#34;Balance too low&#34;);
+   if (msg.sender == owner) {
+     msg.sender.transfer(amount);
+     balance -= amount;
+   }
+ }</code></pre>
+      <p><code>Bet</code> will be our main function that the dapp with call after the player chooses a hand:</p>
+      <pre><code> function bet(uint256 choice) public payable{
+   require(choice &gt;= 0 &amp;&amp; choice &lt;= 2, &#34;Choose a valid rps&#34;);
+   require(balance &gt;= 1, &#34;Bot balance too low&#34;);
+   require(msg.value &gt;= 1, &#34;Bet 1 IOTX&#34;);
+   balance += msg.value;
+   hand playerHand = convertHand(choice);
+   hand botHand = generateHand();
+   result res = determineWin(botHand, playerHand);
+   emitResult(res);
+   distReward(res);
+ }</code></pre>
+      <p><code>Bet</code> takes in an integer between 0 and 2: 0 representing rock, 1 representing paper, and 2
+        representing scissors. </p>
+      <p>First, we must make some invariants are fulfilled using <code>require</code> statements.</p>
+      <pre><code>require(choice &gt;= 0 &amp;&amp; choice &lt;= 2, &#34;Choose a valid rps&#34;);
+require(balance &gt;= 1, &#34;Bot balance too low&#34;);
+require(msg.value &gt;= 1, &#34;Bet 1 IOTX&#34;);</code></pre>
+      <p>These statements check if the choice is valid, if the bot has enough balance to play, and if the user bet 1
+        IOTX.</p>
+      <p>Subsequently, the integer is converted to a hand enum through <code>convertHand()</code> and then a random hand
+        is generated based on our random algorithm defined in <code>generateHand(). </code></p>
+      <pre><code>function generateHand() public view returns(hand){
+   uint rand = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender))) % 3;
+   if (rand == 0) {
+     return hand.ROCK;
+   }
+   if (rand == 1) {
+     return hand.PAPER;
+   }
+   if (rand == 2) {
+     return hand.SCISSORS;
+   }
+ }
+</code></pre>
+      <p>I&#39;m using a hash of block timestamp as a random number generator. Note that block timestamp is not the
+        safest RNG, as it can be manipulated.</p>
+      <p>After getting the player&#39;s hand and the bot&#39;s hand, <code>determineWin(botHand,
+          playerHand)</code>returns a result enum with the result of the game. </p>
+      <pre><code>function determineWin(hand bot,hand player) public pure returns(result) {
+   // Check tie
+   if (bot == player) {
+     return result.TIE;
+   }
+   // Check win/lose
+   if (bot == hand.ROCK) {
+     if (player == hand.PAPER) {
+       return result.WIN;
+     } else {
+       return result.LOSE;
+     }
+   }
+   if (bot == hand.PAPER) {
+     if (player == hand.SCISSORS) {
+       return result.WIN;
+     } else {
+       return result.LOSE;
+     }
+   }
+   if (bot == hand.SCISSORS) {
+     if (player == hand.ROCK) {
+       return result.WIN;
+     } else {
+       return result.LOSE;
+     }
+   }
+ }</code></pre>
+      <p>Finally, <code>setLastResult(res)</code> updates our lastResult variable and <code>distReward(res)</code> sends
+        the appropriate reward to the player based on the result of the match.</p>
+      <pre><code>// Give rewards based on result
+ function distReward(result res) public {
+   if (res == result.WIN) {
+     msg.sender.transfer(2*10**18);
+     balance -= 2*10**18;
+   } else if (res == result.TIE) {
+     msg.sender.transfer(10**18);
+     balance -= 10**18;
+   }
+   gamesPlayed++;
+ }</code></pre>
+
+
+    </google-codelab-step>
+
+    <google-codelab-step label="Deploying our smart contract" duration="3">
+      <p>To deploy our contract, we will use <a href="http://iotexscan.io/wallet"
+          target="_blank">iotexscan.io/wallet</a></p>
+      <h2 is-upgraded>Get abi/bytecode</h2>
+      <p>First, use <a href="https://remix.ethereum.org/" target="_blank">Remix</a> to get our abi and bytecode.</p>
+      <p>Paste your contract into Ethereum&#39;s Remix IDE and select compile.</p>
+      <p>Afterwards, you should see two buttons on the bottom left, one called abi, and one called bytecode:</p>
+      <p class="image-container"><img style="width: 624.00px" src="img/38914dfffe4fae26.png"></p>
+      <p>The bytecode will come in the form of:</p>
+      <pre><code>{
+&#34;linkReferences&#34;: ...,
+&#34;object&#34;: &#34;608932131312124....&#34;,,
+&#34;opcodes&#34;: ...,
+&#34;sourceMap&#34;: ...,
+}</code></pre>
+      <p>The bytecode you copy down is what is inside <code>object</code>. In this example, 608932131312124...</p>
+      <h2 is-upgraded>Deploy with wallet</h2>
+      <p>Deploy your contract onto Mainnet or Testnet</p>
+      <p>Copy and paste your abi and bytecode and deploy.</p>
+      <p>Make sure you have enough IOTX to do so (around 1.5) and have set the gas limit high enough. If the deployment
+        fails, increase the gas limit.</p>
+      <aside class="warning">
+        <p><strong>Note</strong>: if you are unfamiliar with deploying smart contracts, please refer to <a
+            href="http://deploying.com" target="_blank">deploying a simple smart contract</a></p>
+      </aside>
+
+
+    </google-codelab-step>
+
+    <google-codelab-step label="Creating our frontend" duration="3">
+      <p>I used React to build my frontend, however you can use any framework or just javascript to do so. Here is the
+        full code for <code>App.js</code> (code explanation below):</p>
+      <aside class="warning">
+        <p><strong>Important</strong>: replace all instances of <code>abi</code> with your own contract abi</p>
+      </aside>
+      <h3 is-upgraded><a href="https://github.com/iotexproject/codelabs/blob/master/code/rps/App.js"
+          target="_blank"><strong>View code</strong></a></h3>
+      <pre><code>import React from &#39;react&#39;;
+import &#39;./App.css&#39;;
+import { Modal, Spinner } from &#34;react-bootstrap&#34;;
+import abi from &#34;./abi&#34;;
+import Antenna from &#34;iotex-antenna&#34;;
+import { Contract } from &#34;iotex-antenna/lib/contract/contract&#34;;
+import { WsSignerPlugin } from &#39;iotex-antenna/lib/plugin/ws&#39;;
+import { toRau } from &#39;iotex-antenna/lib/account/utils&#39;;
+import sleep from &#39;sleep-promise&#39;;
+
+class App extends React.Component {
+ contract;
+ antenna;
+
+ constructor(props) {
+   super(props)
+   this.antenna = new Antenna(&#39;http://api.iotex.one:80&#39;, {
+     signer: new WsSignerPlugin(&#39;wss://local.get-scatter.com:64102/&#39;),
+   });
+   this.contract = new Contract(
+     abi,
+     &#34;io188rcvluys2n2c5jnys8ry6jyen6qyq4hr8pymq&#34;,
+     {
+       provider: this.antenna.iotx,
+       signer: this.antenna.iotx.signer
+     }
+   );
+   this.state = {
+     balance: 0,
+     games: 0,
+     result: &#34;Waiting for next block&#34;,
+     showResult: false,
+     loading: true
+   }
+ }
+
+ componentDidMount() {
+   this.updateState();
+   setInterval(this.updateState.bind(this), 10e3)
+ }
+
+ async updateState() {
+   let balance = await this.contract.methods.balance(
+     {
+       account: { address: this.antenna.iotx.accounts[0] },
+       gasLimit: &#34;300000&#34;,
+       gasPrice: &#34;1000000000000&#34;
+     }
+   );
+   let games = await this.contract.methods.gamesPlayed(
+     {
+       account: { address: this.antenna.iotx.accounts[0] },
+       gasLimit: &#34;300000&#34;,
+       gasPrice: &#34;1000000000000&#34;
+     }
+   );
+   this.setState({
+     balance: balance,
+     games: games
+   });
+ }
+
+ async betHand(hand) {
+   let blockHeight = (await this.antenna.iotx.getChainMeta()).chainMeta.height;
+   while (true) {
+     let newBlockHeight = (await this.antenna.iotx.getChainMeta()).chainMeta.height;
+     if (newBlockHeight &gt; blockHeight) {
+       break;
+     }
+     await sleep(1000);
+   }
+   this.setState({
+     result: &#34;Please approve transaction&#34;
+   });
+   await this.contract.methods.bet(hand,
+     {
+       amount: toRau(1, &#34;IOTX&#34;),
+       account: { address: this.antenna.iotx.accounts[0] },
+       gasLimit: &#34;300000&#34;,
+       gasPrice: &#34;1000000000000&#34;
+     });
+   let result = await this.contract.methods.lastResult(
+     {
+       account: { address: this.antenna.iotx.accounts[0] },
+       gasLimit: &#34;300000&#34;,
+       gasPrice: &#34;1000000000000&#34;
+     }
+   );
+   this.setState({
+     result: result,
+     loading: false
+   })
+   this.updateState();
+ }
+
+ showModal() {
+   this.setState({ showResult: true });
+ }
+
+ closeModal() {
+   this.setState({ showResult: false });
+ }
+
+ clearResult() {
+   this.setState({ result: &#34;Waiting for next block&#34;, loading: true });
+ }
+
+ render() {
+   return (
+     &lt;div className=&#34;main-container&#34; &gt;
+       &lt;link
+         rel=&#34;stylesheet&#34;
+         href=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css&#34;
+         integrity=&#34;sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T&#34;
+         crossOrigin=&#34;anonymous&#34;
+       /&gt;
+       &lt;div id=&#34;title&#34;&gt;
+         rock paper scissors
+         &lt;/div&gt;
+       &lt;div id=&#34;data&#34;&gt;
+         &lt;span&gt;*Allow up to 10 seconds to receive your IOTX&lt;/span&gt;
+
+         &lt;p&gt;
+           Bot balance: {this.state.balance.toString()} RAU &lt;br&gt;&lt;/br&gt;
+           Games played: {this.state.games.toString()}&lt;br&gt;&lt;/br&gt;Bet: 1 IOTX&lt;br&gt;&lt;/br&gt;
+         &lt;/p&gt;
+       &lt;/div&gt;
+       &lt;div id=&#34;choose&#34;&gt;Choose your hand&lt;/div&gt;
+       &lt;ul&gt;
+         &lt;button className=&#34;rpsButton&#34; onClick={() =&gt; { this.showModal(); this.betHand(0); }}&gt;Rock&lt;/button&gt;
+         &lt;button className=&#34;rpsButton&#34; onClick={() =&gt; { this.showModal(); this.betHand(1); }}&gt;Paper&lt;/button&gt;
+         &lt;button className=&#34;rpsButton&#34; onClick={() =&gt; { this.showModal(); this.betHand(2); }}&gt;Scissors&lt;/button&gt;
+       &lt;/ul&gt;
+       &lt;Modal
+         size=&#34;larW&#34;
+         aria-labelledby=&#34;contained-modal-title-vcenter&#34;
+         centered show={this.state.showResult} onHide={() =&gt; { this.closeModal(); this.clearResult() }}&gt;
+         &lt;Modal.Header closeButton&gt;
+           &lt;Modal.Title&gt;Result&lt;/Modal.Title&gt;
+         &lt;/Modal.Header&gt;
+         &lt;Modal.Body&gt;
+           {this.state.result + &#34; &#34;}
+           {(() =&gt; {
+             if (this.state.loading) {
+               console.log(&#34;show spin&#34;);
+               return &lt;Spinner animation=&#34;border&#34; variant=&#34;primary&#34; size=&#34;sm&#34; /&gt;
+             }
+           })()}
+         &lt;/Modal.Body&gt;
+       &lt;/Modal&gt;
+     &lt;/div &gt;
+   )
+ }
+}
+
+export default App;</code></pre>
+      <p>In our constructor, we instantiate the Antenna and provide an endpoint to mainnet alpha. We also link the
+        Antenna to our wallet signer plugin and create a new Contract object using our abi.</p>
+      <pre><code>this.antenna = new Antenna(&#39;http://api.iotex.one:80&#39;, {
+     signer: new WsSignerPlugin(&#39;wss://local.get-scatter.com:64102/&#39;),
+   });</code></pre>
+      <p>We then create a <code>Contract</code> object which will allow us to call methods we defined in our smart
+        contract.</p>
+      <pre><code>this.contract = new Contract(
+     abi,
+     &#34;io188rcvluys2n2c5jnys8ry6jyen6qyq4hr8pymq&#34;,
+     {
+       provider: this.antenna.iotx,
+       signer: this.antenna.iotx.signer
+     }
+   );</code></pre>
+      <p>We also define our React component&#39;s state, which contains the current balance of the bot, total number of
+        games played, the result of each match, and a few other variables used for interacting with react bootstrap.</p>
+      <pre><code>   this.state = {
+     balance: 0,
+     games: 0,
+     result: &#34;Waiting for next block&#34;,
+     showResult: false,
+     loading: true
+   }</code></pre>
+      <p>When the component mounts, we update the state and set an interval to call <code>updateState</code> for us,
+        which will update our bot balance and games played every 3 seconds:</p>
+      <pre><code>componentDidMount() {
+   this.updateState();
+   setInterval(this.updateState.bind(this), 10e3)
+ }</code></pre>
+      <p>In <code>updateState</code>, we update the state&#39;s <code>balance</code> and <code>games</code> variables
+        with the current values that we get from our contract. We get these values through calling the contract methods
+        for getting public variables. <code>this.antenna.iotx.accounts[0]</code> gets the address of the current user
+        signed into the desktop wallet :</p>
+      <pre><code> async updateState() {
+   let balance = await this.contract.methods.balance(
+     {
+       account: { address: this.antenna.iotx.accounts[0]
+},
+       gasLimit: &#34;300000&#34;,
+       gasPrice: &#34;1000000000000&#34;
+     }
+   );
+   let games = await this.contract.methods.gamesPlayed(
+     {
+       account: { address: this.antenna.iotx.accounts[0]},
+       gasLimit: &#34;300000&#34;,
+       gasPrice: &#34;1000000000000&#34;
+     }
+   );
+   this.setState({
+     balance: balance,
+     games: games
+   });
+ }</code></pre>
+      <p>This is then displayed in our <code>render</code> function:</p>
+      <pre><code>&lt;p&gt;
+  Bot balance: {this.state.balance.toString()} RAU &lt;br&gt;&lt;/br&gt;
+  Games played: {this.state.games.toString()}&lt;br&gt;&lt;/br&gt;Bet: 1  
+  IOTX&lt;br&gt;&lt;/br&gt;
+&lt;/p&gt;</code></pre>
+      <p>The main functionality of the game comes through the <code>betHand</code> method.</p>
+      <p>After the player selects a hand, we wait for the next block to be produced before calculating our random number
+        to increase unpredictability:</p>
+      <pre><code>let blockHeight = (await this.antenna.iotx.getChainMeta()).chainMeta.height;
+   while (true) {
+     let newBlockHeight = (await this.antenna.iotx.getChainMeta()).chainMeta.height;
+     if (newBlockHeight &gt; blockHeight) {
+       break;
+     }
+     await sleep(1000);
+   }</code></pre>
+      <p>We then call the <code>bet</code> method defined in our contract and update the result in state accordingly.
+        The <code>bet</code> method that we defined earlier in our contract contains all the logic for operating our
+        rock paper scissors game, so that&#39;s all we need to do!:</p>
+      <pre><code>await this.contract.methods.bet(hand,
+     {
+       amount: toRau(1, &#34;IOTX&#34;),
+       account: { address: this.antenna.iotx.accounts[0]},
+       gasLimit: &#34;300000&#34;,
+       gasPrice: &#34;1000000000000&#34;
+     });
+   let result = await this.contract.methods.lastResult(
+     {
+       account: { address: this.antenna.iotx.accounts[0]},
+       gasLimit: &#34;300000&#34;,
+       gasPrice: &#34;1000000000000&#34;
+     }
+   );
+   this.setState({
+     result: result,
+     loading: false
+   })
+</code></pre>
+      <p>We attach the <code>betHand</code> method to the rock, paper, and scissors buttons in our <code>render</code>
+        function:</p>
+      <pre><code>&lt;ul&gt;
+         &lt;button className=&#34;rpsButton&#34; onClick={() =&gt; { this.showModal(); this.betHand(0); }}&gt;Rock&lt;/button&gt;
+         &lt;button className=&#34;rpsButton&#34; onClick={() =&gt; { this.showModal(); this.betHand(1); }}&gt;Paper&lt;/button&gt;
+         &lt;button className=&#34;rpsButton&#34; onClick={() =&gt; { this.showModal(); this.betHand(2); }}&gt;Scissors&lt;/button&gt;
+       &lt;/ul&gt;</code></pre>
+
+
+    </google-codelab-step>
+
+    <google-codelab-step label="Styling our DApp" duration="3">
+      <p>CSS styling in <code>App.css</code> to make our app look nice:</p>
+      <h3 is-upgraded><a href="https://github.com/iotexproject/codelabs/blob/master/code/rps/App.css"
+          target="_blank"><strong>View code</strong></a></h3>
+      <pre><code>.rpsButton {
+ padding: 40px;
+ margin-right: 5px;
+ border-radius: 10px;
+ font-weight: bold;
+ cursor: pointer;
+ background: none;
+ margin-top: 1.2em;
+ color: white;
+ margin-right: 1em;
+}
+
+.rpsButton:focus {
+ outline: none;
+}
+
+#choose {
+ margin-top: 10px;
+ font-weight: 500;
+ font-size: 1.1em;
+ margin-bottom: 10px;
+}
+
+#title {
+ margin-top: 100px;
+ font-weight: bold;
+ position: relative;
+ font-size: 3em;
+}
+
+#data {
+ margin-top: 1em;
+ margin-bottom: 2em;
+}
+
+#data p {
+ position: relative;
+ width: 20em;
+ text-align: left;
+ margin: auto;
+ margin-top: 0.5em;
+}
+
+#data span {
+ position: relative;
+ padding: 2px;
+ background: rgba(255, 255, 255, 0.151);
+ border-radius: 3px;
+
+}
+
+ul {
+ display: inline-block;
+
+ flex-direction: row;
+ margin: auto;
+}
+
+.rpsButton:hover {
+ background: rgba(0, 0, 0, 0.1);
+}
+
+modal {
+ background: none;
+}
+
+button:active {
+ opacity: 0.7;
+}
+
+.main-container {
+ padding: 20px;
+ color: white;
+ position: relative;
+ text-align: center;
+}
+
+body {
+ min-height: 100vh;
+ background: #5f2c82;
+ /* fallback for old browsers */
+ background: -webkit-linear-gradient(to right, #49a09d, #5f2c82);
+ /* Chrome 10-25, Safari 5.1-6 */
+ background: linear-gradient(to right, #49a09d, #5f2c82);
+ /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
+ color: white;
+}
+
+.center {
+ margin: auto;
+}</code></pre>
+
+
+    </google-codelab-step>
+
+    <google-codelab-step label="Interacting with IoPay-desktop" duration="3">
+      <p>In our frontend, we created a <code>WsSigner</code> object that will listen to the port created by our IoPay
+        desktop wallet. </p>
+      <p>Open the IoPay desktop wallet we installed earlier and sign in to your account. This will create a server that
+        antenna will listen to, allowing us to authorize contract signing.</p>
+      <p class="image-container"><img style="width: 624.00px" src="img/f10a8ab4d0aa5a3e.png"></p>
+
+
+    </google-codelab-step>
+
+    <google-codelab-step label="Playing with our DApp" duration="3">
+      <p>Go to the root of our rps folder and run our app:</p>
+      <pre>$ npm start</pre>
+      <p>It should start a server at localhost:3000/ and you should see something like this:</p>
+      <p class="image-container"><img style="width: 624.00px" src="img/3cbce5d6e54fadf.png"></p>
+      <p>Make sure you have your desktop wallet open and select a hand: Rock, Paper, or Scissors</p>
+      <p>It will show waiting for next-block and then please approve transaction:</p>
+      <p class="image-container"><img style="width: 624.00px" src="img/9b9ea932f198c57d.png"></p>
+      <p>You should see a popup in your iotex wallet and select Yes, sign transaction:</p>
+      <p class="image-container"><img style="width: 624.00px" src="img/cab28699064e7b8f.png"></p>
+      <p>After approving, the result of your game should be shown!</p>
+      <p class="image-container"><img style="width: 624.00px" src="img/b5faf962dda94fa8.png"></p>
+      <p>Congratulations, you now have a fully functional rock, paper, scissors bot! Thanks for reading!</p>
+
+
+    </google-codelab-step>
+
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+
+</html>

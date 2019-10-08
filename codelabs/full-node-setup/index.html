@@ -131,10 +131,10 @@ endpoint is set to api.iotex.one:443</pre>
       <p>Make sure to pull the latest iotex-core image</p>
       <ul>
         <li>MainNet: <a href="https://github.com/iotexproject/iotex-core/tree/2df78e9460dee3bd3d96526468472409ac36d615"
-            target="_blank">v0.6.2</a></li>
-        <li>TestNet: v0.7.2</li>
+            target="_blank">v0.8.3</a></li>
+        <li>TestNet: v0.8.3</li>
       </ul>
-      <pre>$ docker pull iotex/iotex-core:v.0.6.2</pre>
+      <pre>$ docker pull iotex/iotex-core:v.0.8.3</pre>
       <h2 is-upgraded><strong>Setup node environment</strong></h2>
       <p>The following commands will set up an environment to store node/config files for MainNet.</p>
       <pre>$ mkdir -p ~/iotex-var
@@ -174,7 +174,7 @@ chain:
         -v=$IOTEX_HOME/log:/var/log:rw \
         -v=$IOTEX_HOME/etc/config.yaml:/etc/iotex/config_override.yaml:ro \
         -v=$IOTEX_HOME/etc/genesis.yaml:/etc/iotex/genesis.yaml:ro \
-        iotex/iotex-core:v0.6.2 \
+        iotex/iotex-core:v0.8.3 \
         iotex-server \
         -config-path=/etc/iotex/config_override.yaml \
         -genesis-path=/etc/iotex/genesis.yaml</pre>
@@ -188,7 +188,7 @@ chain:
         -v=$IOTEX_HOME/log:/var/log:rw \
         -v=$IOTEX_HOME/etc/config.yaml:/etc/iotex/config_override.yaml:ro \
         -v=$IOTEX_HOME/etc/genesis.yaml:/etc/iotex/genesis.yaml:ro \
-        iotex/iotex-core:v0.6.2 \
+        iotex/iotex-core:v0.8.3 \
         iotex-server \
         -config-path=/etc/iotex/config_override.yaml \
         -genesis-path=/etc/iotex/genesis.yaml \
@@ -203,8 +203,8 @@ chain:
           node on MainNet, please go back to the previous section</p>
       </aside>
       <h2 is-upgraded><strong>Pull docker image</strong></h2>
-      <p>Make sure to pull the latest iotex-core TestNet image: v.0.7.2</p>
-      <pre>$ docker pull iotex/iotex-core:v.0.7.2</pre>
+      <p>Make sure to pull the latest iotex-core TestNet image: v.0.8.3</p>
+      <pre>$ docker pull iotex/iotex-core:v.0.8.3</pre>
       <h2 is-upgraded><strong>Setup node environment</strong></h2>
       <p>The following commands will set up an environment to store node/config files for MainNet.</p>
       <pre>$ mkdir -p ~/iotex-var
@@ -244,7 +244,7 @@ chain:
         -v=$IOTEX_HOME/log:/var/log:rw \
         -v=$IOTEX_HOME/etc/config.yaml:/etc/iotex/config_override.yaml:ro \
         -v=$IOTEX_HOME/etc/genesis.yaml:/etc/iotex/genesis.yaml:ro \
-        iotex/iotex-core:v0.7.2 \
+        iotex/iotex-core:v0.8.3 \
         iotex-server \
         -config-path=/etc/iotex/config_override.yaml \
         -genesis-path=/etc/iotex/genesis.yaml</pre>
@@ -258,7 +258,7 @@ chain:
         -v=$IOTEX_HOME/log:/var/log:rw \
         -v=$IOTEX_HOME/etc/config.yaml:/etc/iotex/config_override.yaml:ro \
         -v=$IOTEX_HOME/etc/genesis.yaml:/etc/iotex/genesis.yaml:ro \
-        iotex/iotex-core:v0.7.2 \
+        iotex/iotex-core:v0.8.3 \
         iotex-server \
         -config-path=/etc/iotex/config_override.yaml \
         -genesis-path=/etc/iotex/genesis.yaml \

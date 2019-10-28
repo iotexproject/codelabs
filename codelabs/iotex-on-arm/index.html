@@ -1,0 +1,212 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>How to run a IoTeX Full Node on a Raspberry Pi Board</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="../style/codelab-elements.css">
+
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="iotex-on-arm"
+                  title="How to run a IoTeX Full Node on a Raspberry Pi Board"
+                  environment="web"
+                  feedback-link="https://iotexlab.io">
+    
+      <google-codelab-step label="Overview" duration="1">
+        <p class="image-container"><img alt="https://iotexlab.io" src="img/e7a77f5021fae902.png"></p>
+<h2 class="checklist" is-upgraded>What You&#39;ll Learn</h2>
+<ul class="checklist">
+<li>how to install Ubuntu on your Raspberry Pi (or compatible board)</li>
+<li>how to install a IoTeX full Node on the board</li>
+<li>how to configure and run the full node</li>
+<li>how to interact with the node</li>
+</ul>
+<h2 is-upgraded>What You will Need</h2>
+<ul>
+<li>an ARM board like<br><br><ul>
+<li>Raspberry 3b+ (not recommended)</li>
+<li>Raspberry 4b,</li>
+<li>Odroid N2</li>
+<li>or similar ARM boards</li>
+</ul>
+</li>
+<li>a power supply compatible with your board</li>
+<li>a PC with an SD card reader</li>
+<li>a 32GB Micro SD card (consider an adapter if requred by your PC)</li>
+<li>an internet connection</li>
+<li>optionally: a USB hard-drive</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Download Ubuntu for your ARM board" duration="5">
+        <p>Before we can install the full node on our ARM board, we need to install a Ubuntu OS image. Depending on the board you are using, you should download the correct OS image. Below some examples:</p>
+<h2 is-upgraded>Raspberry Pi 3 b+</h2>
+<p><a href="http://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.3-preinstalled-server-arm64+raspi3.img.xz" target="_blank">Download Link</a></p>
+<p><strong>Defult login</strong>: ubuntu<br><strong>Default password</strong>: ubuntu</p>
+<h2 is-upgraded>Raspberry Pi 4 b</h2>
+<p><a href="https://github.com/TheRemote/Ubuntu-Server-raspi4-unofficial/releases/download/v12/ubuntu-18.04.3-preinstalled-server-arm64+raspi4.img.xz" target="_blank">Download Link</a><br>This is currently the only (unofficial) version of Ubuntu for the Raspeberry Pi 4 b</p>
+<p><strong>Defult login</strong>: ubuntu<br><strong>Default password</strong>: ubuntu</p>
+<h2 is-upgraded>Odroid N2</h2>
+<p><a href="http://de.eu.odroid.in/ubuntu_18.04lts/N2/ubuntu-18.04.3-4.9-minimal-odroid-n2-20190806.img.xz" target="_blank">Download Link</a></p>
+<p><strong>Defult login</strong>: odroid<br><strong>Default password</strong>: odroid</p>
+<p class="image-container"><img alt="https://iotexlab.io" src="img/e7a77f5021fae902.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Configure the board" duration="15">
+        <h2 is-upgraded>Download Etcher</h2>
+<p><a href="https://www.balena.io/etcher/" target="_blank">Download Link</a></p>
+<h2 is-upgraded>Flash the OS image</h2>
+<ul>
+<li>Insert your micro sd card in your PC card reader</li>
+<li>Open Etcher</li>
+<li>Select the OS image you downloaded</li>
+<li>Flash it!</li>
+</ul>
+<h2 is-upgraded>Power on your board</h2>
+<ul>
+<li>Connect the board to your router with an ethernet cable</li>
+<li>Insert the Micro SD card in the card reader of the board</li>
+<li>Power on the board by connecting the power supply</li>
+</ul>
+<h2 is-upgraded>Configure your router</h2>
+<p>If you don&#39;t know how to do that, check out this <a href="https://youtu.be/xWD4UhGGCyo?t=246" target="_blank">YouTube Video</a> for an example.</p>
+<ul>
+<li>Access your roter configuration page from a browser</li>
+<li>Locate your board among the connected devices</li>
+<li>Configure your router to provide a fixed IP address for your board</li>
+<li>Also configure the router &#34;Virtual server&#34; port 4689 by redirecting it to your board IP address</li>
+</ul>
+<p class="image-container"><img alt="https://iotexlab.io" src="img/e7a77f5021fae902.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Configure Ubuntu" duration="5">
+        <h2 is-upgraded>Login in Ubuntu</h2>
+<p>Please use the IP address you assigned for your board. In the example it will be 192.168.1.105, while yours could be different.</p>
+<p>From your PC, type the following:</p>
+<p>For Raspberry boards:</p>
+<pre><code>ssh ubuntu@192.168.1.105
+password: ubuntu
+</code></pre>
+<p>For the Odroid N2 board</p>
+<pre><code>ssh odroid@192.168.1.105
+password: odroid
+</code></pre>
+<p>If requested, update your password and login again <strong>using the new password</strong>.</p>
+<h2 is-upgraded>Clone the IoTeXLab iotex-arm scripts</h2>
+<pre><code>git clone https://github.com/IoTeXLab/iotex-arm.git
+</code></pre>
+<p>if <code>git</code> is not installed in your Ubuntu image, install it with:</p>
+<pre><code>sudo apt install git
+</code></pre>
+<h2 is-upgraded>Set the path to the scripts folder</h2>
+<p>Edit the file <code>.profile</code></p>
+<pre><code>nano .profile
+</code></pre>
+<p>add this line at the end of the file:</p>
+<pre><code>PATH=&#34;$PATH:$HOME/iotex-arm/bin&#34;
+</code></pre>
+<p>type <code>ctrl-X</code> and <code>Y</code> to save, then type</p>
+<pre><code>source .profile
+</code></pre>
+<p>to apply the change</p>
+<p class="image-container"><img alt="https://iotexlab.io" src="img/e7a77f5021fae902.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Optional: configure an USB hard drive" duration="5">
+        <p>Using an usb hard drive is recommended to store the IoTeX blockchain Data. You can avoid it, but adding a usb hard disk would make the raspberry more responsive, and the sync process/node updates will run much faster.</p>
+<p>Create the <code>iotex-var</code> folder in your home directory</p>
+<pre><code>cd ~
+mkdir iotex-var
+</code></pre>
+<p>List the current disks</p>
+<pre><code>lsblk
+</code></pre>
+<p>Connect your hard disk to a USB port, and list the disks again: you should see a new <em>sda</em> disk with one or more partitions (<em>sda1, sda2....</em>) depending on the disk you conencted.</p>
+<p>Mount the partition</p>
+<pre><code>sudo mount /dev/sda1 ~/iotex-var 
+</code></pre>
+<p class="image-container"><img alt="https://iotexlab.io" src="img/e7a77f5021fae902.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Install the IoTeX full node" duration="30">
+        <p><a href="https://iotexlab.io" target="_blank">IoTeXLab Delegate</a> provides an updated <strong>Docker image</strong> for the latest IoTeX node release, specifically built for <strong>ARM boards</strong>. You can browse the available versions at the <a href="https://hub.docker.com/r/iotexlab/iotex-core-arm/tags" target="_blank">IoTeXLab public Docker Repository</a>.</p>
+<h2 is-upgraded>The quick way</h2>
+<p>The IoTeXLab GitHub repository that you just cloned in the previous step, includes a convenient script that will just perform all the required operations, from installing Docker up to configuring the node for you.</p>
+<p>To run it, just type the following:</p>
+<pre><code>setup_iotex_node
+</code></pre>
+<h2 is-upgraded>The standard way</h2>
+<p>Having the Docker image for ARM, you can install the IoTeX full node by simply installing Docker:</p>
+<pre><code>curl -sSL https://get.docker.com | sh
+sudo usermod -aG docker $(whoami)
+</code></pre>
+<p>and following the official instructions available at<br><a href="https://github.com/iotexproject/iotex-bootstrap#status" target="_blank">IoTeX Bootstrap Repository</a><br>just replace the official IoTeX Docker repository <code>iotex/iotex-core</code> with the IoTeXLab repository <code>iotexlab/iotex-core-arm</code> (replace the release with the current one):</p>
+<pre><code>docker pull iotexlab/iotex-core-arm:v0.9.2 
+</code></pre>
+<p class="image-container"><img alt="https://iotexlab.io" src="img/e7a77f5021fae902.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Interact with the node" duration="5">
+        <p>The IoTeXLab scripts folder includes a few convenient scripts tools. After the node is downloaded and configured, you can run the following commands:</p>
+<p>to show the log from the node</p>
+<pre><code>logNode 
+</code></pre>
+<p>to kill the currently running node</p>
+<pre><code>killNode 
+</code></pre>
+<p>to start the node</p>
+<pre><code>startNode 
+</code></pre>
+<p>It also includes the latest IoTeX <code>ioctl</code> command line tool to interact with the IoTeX blockchain:</p>
+<p>First configure it to interact with our local node:</p>
+<pre><code>ioctl config set endpoint localhost:14014 --insecure
+</code></pre>
+<p>now you can use it to query the node or execute actions:</p>
+<p>Get basic infos about the blockchain</p>
+<pre><code>ioctl bc info
+</code></pre>
+<p>List the current consensus delegates</p>
+<pre><code>ioctl node delegate
+</code></pre>
+<p class="image-container"><img alt="https://iotexlab.io" src="img/e7a77f5021fae902.png"></p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>

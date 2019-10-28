@@ -1,0 +1,27 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2019-10-27T22:19:17+01:00",
+  "id": "iotex-on-arm",
+  "duration": 66,
+  "title": "How to run a IoTeX Full Node on a Raspberry Pi Board",
+  "authors": "Simone Romano",
+  "summary": "Run a IoTeX Full node on Raspberry-like boards",
+  "source": "iotex-on-arm.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "iot"
+  ],
+  "tags": [
+    "arm",
+    "raspberry",
+    "sbc"
+  ],
+  "feedback": "https://iotexlab.io",
+  "url": "iotex-on-arm"
+}
